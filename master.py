@@ -12,13 +12,11 @@ class Pemilu:
         self.tree = ttk.Treeview(self.master, height=20)
         self.tree.pack(side="right")
 
-
         self.vsb = ttk.Scrollbar(self.master, orient="vertical", command=self.tree.yview)
         self.vsb.pack(side='right', fill='y')
         self.tree.configure(yscrollcommand=self.vsb.set)
 
         self.tree["columns"] = ("#1", "#2")
-
         self.tree.heading("#0", text="Voter")
         self.tree.heading("#1", text="Pilihan")
         self.tree.heading("#2", text="Time stamp")
@@ -35,16 +33,12 @@ class Pemilu:
                 count_vote.append(data[1])
                 self.tree.insert("", index, text=data[0], values=(data[1], data[2]))
 
-        count_result = list(Counter(count_vote))
-        count_result_recap = []
+        cf_ahok = Counter(count_vote).get('Ahok')
+        cf_anies = Counter(count_vote).get('Anies')
+        print(cf_ahok)
+        print(cf_anies)
 
-        print(count_result)
 
-        for candidate in count_result:
-            count_for_candidate = Counter(count_vote).get(candidate)
-            count_result_recap.append([candidate, count_for_candidate])
-
-        # print(count_result_recap)
 
         self.tree.pack()
         self.tree.place(x=700, y=50)
@@ -57,6 +51,11 @@ class Pemilu:
         B = Button(root, text="Anies-Sandi", command = lambda : self.choose_option(candidate='Anies'), width=35, height=15, bg="blue")
         B.place(x=320, y=50)
 
+        self.cf_ahok_view = Label(root, text=cf_ahok, font=("Calibri", 44))
+        self.cf_ahok_view.place(x=120, y=350)
+
+        self.cf_anies_view = Label(root, text=cf_anies, font=("Calibri", 44))
+        self.cf_anies_view.place(x=420, y=350)
 
 
     def choose_option(self, candidate):
@@ -65,16 +64,33 @@ class Pemilu:
         with open('data.csv') as csvfile :
             read_data = csv.reader(csvfile, delimiter=',')
             last_index = len(list(read_data))
-            print(last_index)
 
         with open('data.csv', 'a', newline='') as csvfile:
             write_csv = csv.writer(csvfile, delimiter = ',')
             if candidate == 'Ahok' :
                 write_csv.writerow(['Voter {}'.format(last_index), 'Ahok', time])
-                self.tree.insert("", 0, text='Voter {}'.format(last_index), values=("Ahok", time))
+                self.tree.insert("", 0, text='Voter {}'.format(last_index+1), values=("Ahok", time))
             if candidate == 'Anies':
                 write_csv.writerow(['Voter {}'.format(last_index), 'Anies', time])
-                self.tree.insert("", 0, text='Voter {}'.format(last_index), values=("Anies", time))
+                self.tree.insert("", 0, text='Voter {}'.format(last_index+1), values=("Anies", time))
+
+        with open("data.csv") as file:
+            data_pointer = csv.reader(file, delimiter=",")
+            list_data = list(data_pointer)
+
+        count_vote = []
+        for index, data in enumerate(list_data):
+            if data != [] :
+                count_vote.append(data[1])
+
+
+        cf_ahok = Counter(count_vote).get('Ahok')
+        cf_anies = Counter(count_vote).get('Anies')
+
+
+        if candidate == 'Ahok': self.cf_ahok_view.configure(text=cf_ahok)
+        if candidate == 'Anies': self.cf_anies_view.configure(text=cf_anies)
+
 
 root = Tk()
 root.geometry("1150x600")
