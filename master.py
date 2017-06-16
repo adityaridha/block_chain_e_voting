@@ -14,12 +14,10 @@ class Pemilu:
         self.main_frame = Canvas(self.root)
         self.main_frame.pack(side=TOP, fill=BOTH, expand=TRUE)
 
-
         self.scroll_bar = Scrollbar(self.root, orient=HORIZONTAL)
         self.scroll_bar.pack(side=BOTTOM, fill=X)
 
         self.main_frame.configure(xscrollcommand=self.scroll_bar.set)
-
 
 
 
@@ -54,8 +52,8 @@ class Pemilu:
         self.hash_value.place(x=100+margin_1, y=height_hash)
 
         height_button = 230
-        hash_meth = Button(self.main_frame, text="Hash", command= self.get_hash, width=9, height=1)
-        send_meth = Button(self.main_frame, text="Send", command= self.send_hash_1_2, width=9, height=1)
+        hash_meth = Button(self.main_frame, text="Hash", command= lambda : self.get_hash(node=1), width=9, height=1)
+        send_meth = Button(self.main_frame, text="Send", command= lambda : self.send_hash(node_dest=2), width=9, height=1)
         hash_meth.place(x=100+margin_1, y=height_button)
         send_meth.place(x=190+margin_1, y=height_button)
 
@@ -92,8 +90,8 @@ class Pemilu:
         self.hash_value_2.place(x=100+margin_2, y=height_hash)
 
         height_button = 230
-        hash_meth_2 = Button(self.main_frame, text="Hash", command= self.get_hash, width=9, height=1)
-        send_meth_2 = Button(self.main_frame, text="Send", command= self.get_hash, width=9, height=1)
+        hash_meth_2 = Button(self.main_frame, text="Hash", command= lambda : self.get_hash(node=2), width=9, height=1)
+        send_meth_2 = Button(self.main_frame, text="Send", command=lambda : self.send_hash(node_dest=3), width=9, height=1)
         hash_meth_2.place(x=100+margin_2, y=height_button)
         send_meth_2.place(x=190+margin_2, y=height_button)
 
@@ -116,10 +114,10 @@ class Pemilu:
         self.anies_entry_3 = Entry(self.main_frame, width=40)
         self.anies_entry_3.place(x=100 + margin_3, y=76)
 
-        self.gen_label_3 = Label(text="Genesis")
-        self.gen_value_3 = Text(self.main_frame, width=30, height=3)
-        self.gen_label_3.place(x=50 + margin_3, y=102)
-        self.gen_value_3.place(x=100 + margin_3, y=102)
+        self.prev_label_3 = Label(text="Genesis")
+        self.prev_value_3 = Text(self.main_frame, width=30, height=3)
+        self.prev_label_3.place(x=50 + margin_3, y=102)
+        self.prev_value_3.place(x=100 + margin_3, y=102)
 
         height_hash = 162
         self.hash_label_3 = Label(text="Hash")
@@ -173,21 +171,39 @@ class Pemilu:
 
 
 
-    def get_hash(self):
-        val = self.ahok_entry.get() +','+ self.anies_entry.get()
-        print(val)
-        string_bytes = bytes(val, 'utf-8')
-        hash_data = hashlib.sha256(string_bytes)
-        hash_hex = hash_data.hexdigest()
-        self.hash_value.delete("1.0",END)
-        self.hash_value.insert(END, hash_hex)
-        # self.hash_value.configure(state=DISABLED, bg='GREY')
-        print(hash_hex)
+    def get_hash(self,node):
+        if node == 1:
+            val = self.ahok_entry.get() +','+ self.anies_entry.get()
+            print(val)
+            string_bytes = bytes(val, 'utf-8')
+            hash_data = hashlib.sha256(string_bytes)
+            hash_hex = hash_data.hexdigest()
+            self.hash_value.delete("1.0",END)
+            self.hash_value.insert(END, hash_hex)
+            # self.hash_value.configure(state=DISABLED, bg='GREY')
+            print(hash_hex)
+        if node ==2:
+            val = self.ahok_entry_2.get() +','+ self.anies_entry_2.get()+','+self.prev_value_2.get("1.0",END)
+            print(val)
+            string_bytes = bytes(val, 'utf-8')
+            hash_data = hashlib.sha256(string_bytes)
+            hash_hex = hash_data.hexdigest()
+            self.hash_value_2.delete("1.0",END)
+            self.hash_value_2.insert(END, hash_hex)
+            # self.hash_value.configure(state=DISABLED, bg='GREY')
+            print(hash_hex)
 
-    def send_hash_1_2(self):
-        hash_1 = self.hash_value.get(1.0,END)
-        self.prev_value_2.delete("1.0",END)
-        self.prev_value_2.insert(END, hash_1)
+
+    def send_hash(self,node_dest):
+        if node_dest==2:
+            hash_1 = self.hash_value.get(1.0,END)
+            self.prev_value_2.delete("1.0",END)
+            self.prev_value_2.insert(END, hash_1)
+        if node_dest == 3:
+            print(3)
+            hash_1 = self.hash_value_2.get(1.0, END)
+            self.prev_value_3.delete("1.0", END)
+            self.prev_value_3.insert(END, hash_1)
 
 
         # self.tree = ttk.Treeview(self.master, height=20)
@@ -268,7 +284,7 @@ class Pemilu:
         if candidate == 'Anies': self.cf_anies_view.configure(text=cf_anies)
 
 root = Tk()
-root.geometry("1150x600")
+root.geometry("1372x600")
 Pemilu(root)
 root.mainloop()
 
