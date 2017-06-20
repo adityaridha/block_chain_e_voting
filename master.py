@@ -3,6 +3,7 @@ import hashlib
 from tkinter import *
 from tkinter import font
 from collections import Counter
+from random import randint
 import datetime
 
 class Pemilu:
@@ -34,14 +35,14 @@ class Pemilu:
         self.ahok_label = Label(text="Ahok")
         self.ahok_label.place(x=node_1_margin_x+20, y=50)
 
-        self.ahok_entry = Entry(self.main_frame, width=40)
-        self.ahok_entry.place(x=node_1_margin_x+60, y=50)
+        self.node_1_ahok_count = Entry(self.main_frame, width=40)
+        self.node_1_ahok_count.place(x=node_1_margin_x+60, y=50)
 
         self.anies_label = Label(text="Anies")
         self.anies_label.place(x=node_1_margin_x+20, y=76)
 
-        self.anies_entry = Entry(self.main_frame, width=40)
-        self.anies_entry.place(x=node_1_margin_x+60, y=76)
+        self.node_1_anies_count = Entry(self.main_frame, width=40)
+        self.node_1_anies_count.place(x=node_1_margin_x+60, y=76)
 
         self.gen_label = Label(text="Genesis")
         self.gen_value = Text(self.main_frame, width=40, height=3, font=self.my_font)
@@ -79,14 +80,14 @@ class Pemilu:
         self.ahok_label_2 = Label(text="Ahok")
         self.ahok_label_2.place(x=60+margin_2, y=50)
 
-        self.ahok_entry_2 = Entry(self.main_frame, width=40)
-        self.ahok_entry_2.place(x=100+margin_2, y=50)
+        self.node_2_ahok_count = Entry(self.main_frame, width=40)
+        self.node_2_ahok_count.place(x=100+margin_2, y=50)
 
         self.anies_label_2 = Label(text="Anies")
         self.anies_label_2.place(x=60+margin_2, y=76)
 
-        self.anies_entry_2 = Entry(self.main_frame, width=40)
-        self.anies_entry_2.place(x=100+margin_2, y=76)
+        self.node_2_anies_count = Entry(self.main_frame, width=40)
+        self.node_2_anies_count.place(x=100+margin_2, y=76)
 
         self.prev_label_2 = Label(text="Hash #1")
         self.prev_value_2 = Text(self.main_frame, width=30, height=3)
@@ -117,14 +118,14 @@ class Pemilu:
         self.ahok_label_3 = Label(text="Ahok")
         self.ahok_label_3.place(x=60 + margin_3, y=50)
 
-        self.ahok_entry_3 = Entry(self.main_frame, width=40)
-        self.ahok_entry_3.place(x=100 + margin_3, y=50)
+        self.node_3_ahok_count = Entry(self.main_frame, width=40)
+        self.node_3_ahok_count.place(x=100 + margin_3, y=50)
 
         self.anies_label_3 = Label(text="Anies")
         self.anies_label_3.place(x=60 + margin_3, y=76)
 
-        self.anies_entry_3 = Entry(self.main_frame, width=40)
-        self.anies_entry_3.place(x=100 + margin_3, y=76)
+        self.node_3_anies_count = Entry(self.main_frame, width=40)
+        self.node_3_anies_count.place(x=100 + margin_3, y=76)
 
         self.prev_label_3 = Label(text="Hash #2")
         self.prev_value_3 = Text(self.main_frame, width=30, height=3)
@@ -155,14 +156,14 @@ class Pemilu:
         self.ahok_label_4 = Label(text="Ahok")
         self.ahok_label_4.place(x=60 + margin_4, y=50)
 
-        self.ahok_entry_4 = Entry(self.main_frame, width=40)
-        self.ahok_entry_4.place(x=100 + margin_4, y=50)
+        self.node_4_ahok_count = Entry(self.main_frame, width=40)
+        self.node_4_ahok_count.place(x=100 + margin_4, y=50)
 
         self.anies_label_4 = Label(text="Anies")
         self.anies_label_4.place(x=60 + margin_4, y=76)
 
-        self.anies_entry_4 = Entry(self.main_frame, width=40)
-        self.anies_entry_4.place(x=100 + margin_4, y=76)
+        self.node_4_anies_count = Entry(self.main_frame, width=40)
+        self.node_4_anies_count.place(x=100 + margin_4, y=76)
 
         self.prev_label_4 = Label(text="Hash #3")
         self.prev_value_4 = Text(self.main_frame, width=30, height=3)
@@ -388,13 +389,13 @@ class Pemilu:
         self.node_1_db.place(x=node_1_x_level_two, y=node_5_level)
 
 
-        Button(text='Generate Data', width=15, height=2, bg='#f8c659').place(x=node_1_margin_x, y=node_5_level+100)
+        Button(text='Generate Data', width=15, height=2, bg='#f8c659', command=self.generate_data).place(x=node_1_margin_x, y=node_5_level+100)
 
 
 
     def get_hash(self,node):
         if node == 1:
-            val = self.ahok_entry.get() +','+ self.anies_entry.get()+','+self.gen_value.get("1.0",END)
+            val = self.node_1_ahok_count.get() +','+ self.node_1_anies_count.get()+','+self.gen_value.get("1.0",END)
             print(val)
             string_bytes = bytes(val, 'utf-8')
             hash_data = hashlib.sha256(string_bytes)
@@ -403,7 +404,7 @@ class Pemilu:
             self.hash_value.insert(END, hash_hex)
             print(hash_hex)
         if node == 2:
-            val = self.ahok_entry_2.get() +','+ self.anies_entry_2.get()+','+self.prev_value_2.get("1.0",END)
+            val = self.node_2_ahok_count.get() +','+ self.node_2_anies_count.get()+','+self.prev_value_2.get("1.0",END)
             print(val)
             string_bytes = bytes(val, 'utf-8')
             hash_data = hashlib.sha256(string_bytes)
@@ -412,7 +413,7 @@ class Pemilu:
             self.hash_value_2.insert(END, hash_hex)
             print(hash_hex)
         if node == 3:
-            val = self.ahok_entry_3.get() +','+ self.anies_entry_3.get()+','+self.prev_value_3.get("1.0",END)
+            val = self.node_3_ahok_count.get() +','+ self.node_3_anies_count.get()+','+self.prev_value_3.get("1.0",END)
             print(val)
             string_bytes = bytes(val, 'utf-8')
             hash_data = hashlib.sha256(string_bytes)
@@ -421,7 +422,7 @@ class Pemilu:
             self.hash_value_3.insert(END, hash_hex)
             print(hash_hex)
         if node == 4:
-            val = self.ahok_entry_4.get() +','+ self.anies_entry_4.get()+','+self.prev_value_4.get("1.0",END)
+            val = self.node_4_ahok_count.get() +','+ self.node_4_anies_count.get()+','+self.prev_value_4.get("1.0",END)
             print(val)
             string_bytes = bytes(val, 'utf-8')
             hash_data = hashlib.sha256(string_bytes)
@@ -494,6 +495,28 @@ class Pemilu:
         # self.cf_anies_view = Label(root, text=cf_anies, font=("Calibri", 44))
         # self.cf_anies_view.place(x=420, y=350)
 
+    def generate_data(self):
+        # print()
+        self.node_1_ahok_count.delete("0", END)
+        self.node_1_ahok_count.insert(END,randint(30,100))
+        self.node_2_ahok_count.delete("0", END)
+        self.node_2_ahok_count.insert(END,randint(30,100))
+        self.node_3_ahok_count.delete("0", END)
+        self.node_3_ahok_count.insert(END,randint(30,100))
+        self.node_4_ahok_count.delete("0", END)
+        self.node_4_ahok_count.insert(END,randint(30,100))
+
+        self.node_1_anies_count.delete("0", END)
+        self.node_1_anies_count.insert(END, randint(30,100))
+        self.node_2_anies_count.delete("0", END)
+        self.node_2_anies_count.insert(END, randint(30,100))
+        self.node_3_anies_count.delete("0", END)
+        self.node_3_anies_count.insert(END, randint(30,100))
+        self.node_4_anies_count.delete("0", END)
+        self.node_4_anies_count.insert(END, randint(30,100))
+
+
+
     def choose_option(self, candidate):
         time = datetime.datetime.now().replace(microsecond=0)
 
@@ -524,6 +547,8 @@ class Pemilu:
 
         if candidate == 'Ahok': self.cf_ahok_view.configure(text=cf_ahok)
         if candidate == 'Anies': self.cf_anies_view.configure(text=cf_anies)
+
+
 
 root = Tk()
 root.geometry("1372x700")
