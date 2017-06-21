@@ -1,10 +1,12 @@
 import csv
 import hashlib
+import datetime
+import time
 from tkinter import *
 from tkinter import font
 from collections import Counter
 from random import randint
-import datetime
+
 
 class Pemilu:
 
@@ -62,7 +64,7 @@ class Pemilu:
         height_button = 230
         hash_meth = Button(self.main_frame, text="Hash", command= lambda : self.get_hash(node=1), width=9, height=1)
         send_meth = Button(self.main_frame, text="Broadcast", command= lambda : self.broadcast_hash(node_dest=2), width=9, height=1)
-        disable_node = Button(self.main_frame, text="Disable", command=lambda: self.get_hash(node=1), width=9, height=1)
+        disable_node = Button(self.main_frame, text="Disable", command=lambda: self.get_hash(node=1), fg='white', bg='#91181e', width=9, height=1)
         disable_node.place(x=node_1_margin_x+230, y=height_button)
         hash_meth.place(x=node_1_margin_x+60, y=height_button)
         send_meth.place(x=node_1_margin_x+145, y=height_button)
@@ -103,7 +105,7 @@ class Pemilu:
         height_button = 230
         hash_meth_2 = Button(self.main_frame, text="Hash", command= lambda : self.get_hash(node=2), width=9, height=1)
         send_meth_2 = Button(self.main_frame, text="Broadcast", command=lambda : self.broadcast_hash(node_dest=3), width=9, height=1)
-        disable_node = Button(self.main_frame, text="Disable", command=lambda: self.get_hash(node=1), width=9, height=1)
+        disable_node = Button(self.main_frame, text="Disable", command=lambda: self.get_hash(node=1), fg='white', bg='#91181e', width=9, height=1)
         disable_node.place(x=270 + margin_2, y=height_button)
         hash_meth_2.place(x=100+margin_2, y=height_button)
         send_meth_2.place(x=185+margin_2, y=height_button)
@@ -141,7 +143,7 @@ class Pemilu:
         height_button = 230
         hash_meth_3 = Button(self.main_frame, text="Hash", command=lambda: self.get_hash(node=3), width=9, height=1)
         send_meth_3 = Button(self.main_frame, text="Broadcast", command=lambda: self.broadcast_hash(node_dest=4), width=9, height=1)
-        disable_node = Button(self.main_frame, text="Disable", command=lambda: self.get_hash(node=1), width=9, height=1)
+        disable_node = Button(self.main_frame, text="Disable", command=lambda: self.get_hash(node=1), fg='white', bg='#91181e', width=9, height=1)
         disable_node.place(x=270 + margin_3, y=height_button)
         hash_meth_3.place(x=100 + margin_3, y=height_button)
         send_meth_3.place(x=185 + margin_3, y=height_button)
@@ -179,7 +181,7 @@ class Pemilu:
         height_button = 230
         hash_meth_4 = Button(self.main_frame, text="Hash", command=lambda: self.get_hash(node=4), width=9, height=1)
         send_meth_4 = Button(self.main_frame, text="Broadcast", command=lambda : self.broadcast_hash(), width=9, height=1)
-        disable_node = Button(self.main_frame, text="Disable", command=lambda: self.get_hash(node=1), width=9, height=1)
+        disable_node = Button(self.main_frame, text="Disable", command=lambda: self.get_hash(node=1), fg='white', bg='#91181e', width=9, height=1)
         disable_node.place(x=270 + margin_4, y=height_button)
         hash_meth_4.place(x=100 + margin_4, y=height_button)
         send_meth_4.place(x=185 + margin_4, y=height_button)
@@ -201,39 +203,39 @@ class Pemilu:
         self.node_1_db.place(x=node_1_margin_x, y=node_1_y_level)
 
         Label(text="Node#1").place(x=node_index_label, y=node_1_y_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_one, y=node_1_y_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_two, y=node_1_y_level)
+        self.node_1_db_ahok_1 = Entry(self.main_frame, width=7)
+        self.node_1_db_ahok_1.place(x=node_1_x_level_one, y=node_1_y_level)
+        self.node_1_db_anies_1 = Entry(self.main_frame, width=7)
+        self.node_1_db_anies_1.place(x=node_1_x_level_two, y=node_1_y_level)
 
 
         node_2_level = node_1_y_level + 30
         Label(text="Node#2").place(x=node_index_label, y=node_2_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_one, y=node_2_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_two, y=node_2_level)
+        self.node_1_db_ahok_2 = Entry(self.main_frame, width=7)
+        self.node_1_db_ahok_2.place(x=node_1_x_level_one, y=node_2_level)
+        self.node_1_db_anies_2 = Entry(self.main_frame, width=7)
+        self.node_1_db_anies_2.place(x=node_1_x_level_two, y=node_2_level)
 
         node_3_level = node_2_level + 30
         Label(text="Node#3").place(x=node_index_label, y=node_3_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_one, y=node_3_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_two, y=node_3_level)
+        self.node_1_db_ahok_3 = Entry(self.main_frame, width=7)
+        self.node_1_db_ahok_3.place(x=node_1_x_level_one, y=node_3_level)
+        self.node_1_db_anies_3 = Entry(self.main_frame, width=7)
+        self.node_1_db_anies_3.place(x=node_1_x_level_two, y=node_3_level)
 
         node_4_level = node_3_level + 30
         Label(text="Node#4").place(x=node_index_label, y=node_4_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_one, y=node_4_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_two, y=node_4_level)
+        self.node_1_db_ahok_4 = Entry(self.main_frame, width=7)
+        self.node_1_db_ahok_4.place(x=node_1_x_level_one, y=node_4_level)
+        self.node_1_db_anies_4 = Entry(self.main_frame, width=7)
+        self.node_1_db_anies_4.place(x=node_1_x_level_two, y=node_4_level)
 
         node_5_level = node_4_level + 30
         Label(text="Total", fg='Blue').place(x=node_index_label, y=node_5_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_one, y=node_5_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_two, y=node_5_level)
+        self.node_1_db_ahok_total = Entry(self.main_frame, width=7)
+        self.node_1_db_ahok_total.place(x=node_1_x_level_one, y=node_5_level)
+        self.node_1_db_anies_total = Entry(self.main_frame, width=7)
+        self.node_1_db_anies_total.place(x=node_1_x_level_two, y=node_5_level)
 
         ''' ################### NODE 2 ################### '''
 
@@ -248,43 +250,43 @@ class Pemilu:
         node_1_x_level_two = node_1_x_level_one + 50
         node_index_label = node_1_x_level_one - 60
 
-        self.node_1_db = Text(self.main_frame, width=20, height=9)
-        self.node_1_db.place(x=10+add_margin, y=node_1_y_level)
+        self.node_2_db = Text(self.main_frame, width=20, height=9)
+        self.node_2_db.place(x=10+add_margin, y=node_1_y_level)
 
         Label(text="Node#1").place(x=node_index_label, y=node_1_y_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_one, y=node_1_y_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_two, y=node_1_y_level)
+        self.node_2_db_ahok_1 = Entry(self.main_frame, width=7)
+        self.node_2_db_ahok_1.place(x=node_1_x_level_one, y=node_1_y_level)
+        self.node_2_db_anies_1 = Entry(self.main_frame, width=7)
+        self.node_2_db_anies_1.place(x=node_1_x_level_two, y=node_1_y_level)
 
 
         node_2_level = node_1_y_level + 30
         Label(text="Node#2").place(x=node_index_label, y=node_2_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_one, y=node_2_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_two, y=node_2_level)
+        self.node_2_db_ahok_2 = Entry(self.main_frame, width=7)
+        self.node_2_db_ahok_2.place(x=node_1_x_level_one, y=node_2_level)
+        self.node_2_db_anies_2 = Entry(self.main_frame, width=7)
+        self.node_2_db_anies_2.place(x=node_1_x_level_two, y=node_2_level)
 
         node_3_level = node_2_level + 30
         Label(text="Node#3").place(x=node_index_label, y=node_3_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_one, y=node_3_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_two, y=node_3_level)
+        self.node_2_db_ahok_3 = Entry(self.main_frame, width=7)
+        self.node_2_db_ahok_3.place(x=node_1_x_level_one, y=node_3_level)
+        self.node_2_db_anies_3 = Entry(self.main_frame, width=7)
+        self.node_2_db_anies_3.place(x=node_1_x_level_two, y=node_3_level)
 
         node_4_level = node_3_level + 30
         Label(text="Node#4").place(x=node_index_label, y=node_4_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_one, y=node_4_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_two, y=node_4_level)
+        self.node_2_db_ahok_4 = Entry(self.main_frame, width=7)
+        self.node_2_db_ahok_4.place(x=node_1_x_level_one, y=node_4_level)
+        self.node_2_db_anies_4 = Entry(self.main_frame, width=7)
+        self.node_2_db_anies_4.place(x=node_1_x_level_two, y=node_4_level)
 
         node_5_level = node_4_level + 30
         Label(text="Total", fg='Blue').place(x=node_index_label, y=node_5_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_one, y=node_5_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_two, y=node_5_level)
+        self.node_2_db_ahok_total = Entry(self.main_frame, width=7)
+        self.node_2_db_ahok_total.place(x=node_1_x_level_one, y=node_5_level)
+        self.node_2_db_anies_total = Entry(self.main_frame, width=7)
+        self.node_2_db_anies_total.place(x=node_1_x_level_two, y=node_5_level)
 
         ''' ################### NODE 3 ################### '''
 
@@ -299,43 +301,43 @@ class Pemilu:
         node_1_x_level_two = node_1_x_level_one + 50
         node_index_label = node_1_x_level_one - 60
 
-        self.node_1_db = Text(self.main_frame, width=20, height=9)
-        self.node_1_db.place(x=10+add_margin, y=node_1_y_level)
+        self.node_3_db = Text(self.main_frame, width=20, height=9)
+        self.node_3_db.place(x=10+add_margin, y=node_1_y_level)
 
         Label(text="Node#1").place(x=node_index_label, y=node_1_y_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_one, y=node_1_y_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_two, y=node_1_y_level)
+        self.node_3_db_ahok_1 = Entry(self.main_frame, width=7)
+        self.node_3_db_ahok_1.place(x=node_1_x_level_one, y=node_1_y_level)
+        self.node_3_db_anies_1 = Entry(self.main_frame, width=7)
+        self.node_3_db_anies_1.place(x=node_1_x_level_two, y=node_1_y_level)
 
 
         node_2_level = node_1_y_level + 30
         Label(text="Node#2").place(x=node_index_label, y=node_2_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_one, y=node_2_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_two, y=node_2_level)
+        self.node_3_db_ahok_2 = Entry(self.main_frame, width=7)
+        self.node_3_db_ahok_2.place(x=node_1_x_level_one, y=node_2_level)
+        self.node_3_db_anies_2 = Entry(self.main_frame, width=7)
+        self.node_3_db_anies_2.place(x=node_1_x_level_two, y=node_2_level)
 
         node_3_level = node_2_level + 30
         Label(text="Node#3").place(x=node_index_label, y=node_3_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_one, y=node_3_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_two, y=node_3_level)
+        self.node_3_db_ahok_3 = Entry(self.main_frame, width=7)
+        self.node_3_db_ahok_3.place(x=node_1_x_level_one, y=node_3_level)
+        self.node_3_db_anies_3 = Entry(self.main_frame, width=7)
+        self.node_3_db_anies_3.place(x=node_1_x_level_two, y=node_3_level)
 
         node_4_level = node_3_level + 30
         Label(text="Node#4").place(x=node_index_label, y=node_4_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_one, y=node_4_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_two, y=node_4_level)
+        self.node_3_db_ahok_4 = Entry(self.main_frame, width=7)
+        self.node_3_db_ahok_4.place(x=node_1_x_level_one, y=node_4_level)
+        self.node_3_db_anies_4 = Entry(self.main_frame, width=7)
+        self.node_3_db_anies_4.place(x=node_1_x_level_two, y=node_4_level)
 
         node_5_level = node_4_level + 30
         Label(text="Total", fg='Blue').place(x=node_index_label, y=node_5_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_one, y=node_5_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_two, y=node_5_level)
+        self.node_3_db_ahok_total = Entry(self.main_frame, width=7)
+        self.node_3_db_ahok_total.place(x=node_1_x_level_one, y=node_5_level)
+        self.node_3_db_anies_total = Entry(self.main_frame, width=7)
+        self.node_3_db_anies_total.place(x=node_1_x_level_two, y=node_5_level)
 
         ''' ################### NODE 4 ################### '''
 
@@ -350,43 +352,43 @@ class Pemilu:
         node_1_x_level_two = node_1_x_level_one + 50
         node_index_label = node_1_x_level_one - 60
 
-        self.node_1_db = Text(self.main_frame, width=20, height=9)
-        self.node_1_db.place(x=10+add_margin, y=node_1_y_level)
+        self.node_4_db = Text(self.main_frame, width=20, height=9)
+        self.node_4_db.place(x=10+add_margin, y=node_1_y_level)
 
         Label(text="Node#1").place(x=node_index_label, y=node_1_y_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_one, y=node_1_y_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_two, y=node_1_y_level)
+        self.node_4_db_ahok_1 = Entry(self.main_frame, width=7)
+        self.node_4_db_ahok_1.place(x=node_1_x_level_one, y=node_1_y_level)
+        self.node_4_db_anies_1 = Entry(self.main_frame, width=7)
+        self.node_4_db_anies_1.place(x=node_1_x_level_two, y=node_1_y_level)
 
 
         node_2_level = node_1_y_level + 30
         Label(text="Node#2").place(x=node_index_label, y=node_2_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_one, y=node_2_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_two, y=node_2_level)
+        self.node_4_db_ahok_2 = Entry(self.main_frame, width=7)
+        self.node_4_db_ahok_2.place(x=node_1_x_level_one, y=node_2_level)
+        self.node_4_db_anies_2 = Entry(self.main_frame, width=7)
+        self.node_4_db_anies_2.place(x=node_1_x_level_two, y=node_2_level)
 
         node_3_level = node_2_level + 30
         Label(text="Node#3").place(x=node_index_label, y=node_3_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_one, y=node_3_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_two, y=node_3_level)
+        self.node_4_db_ahok_3 = Entry(self.main_frame, width=7)
+        self.node_4_db_ahok_3.place(x=node_1_x_level_one, y=node_3_level)
+        self.node_4_db_anies_3 = Entry(self.main_frame, width=7)
+        self.node_4_db_anies_3.place(x=node_1_x_level_two, y=node_3_level)
 
         node_4_level = node_3_level + 30
         Label(text="Node#4").place(x=node_index_label, y=node_4_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_one, y=node_4_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_two, y=node_4_level)
+        self.node_4_db_ahok_4 = Entry(self.main_frame, width=7)
+        self.node_4_db_ahok_4.place(x=node_1_x_level_one, y=node_4_level)
+        self.node_4_db_anies_4 = Entry(self.main_frame, width=7)
+        self.node_4_db_anies_4.place(x=node_1_x_level_two, y=node_4_level)
 
         node_5_level = node_4_level + 30
         Label(text="Total", fg='Blue').place(x=node_index_label, y=node_5_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_one, y=node_5_level)
-        self.node_1_db = Text(self.main_frame, width=5, height=1)
-        self.node_1_db.place(x=node_1_x_level_two, y=node_5_level)
+        self.node_4_db_ahok_total = Entry(self.main_frame, width=7)
+        self.node_4_db_ahok_total.place(x=node_1_x_level_one, y=node_5_level)
+        self.node_4_db_anies_total = Entry(self.main_frame, width=7)
+        self.node_4_db_anies_total.place(x=node_1_x_level_two, y=node_5_level)
 
 
         Button(text='Generate Data', width=15, height=2, bg='#f8c659', command=self.generate_data).place(x=node_1_margin_x, y=node_5_level+100)
@@ -436,9 +438,55 @@ class Pemilu:
         if node_dest == 2:
             source_hash = self.hash_value
             prev_hash_value = self.prev_value_2
+            ahok_count = self.node_1_ahok_count.get()
+            anies_count = self.node_1_anies_count.get()
+
+            self.node_1_db_ahok_1.delete("0", END)
+            self.node_1_db_ahok_1.insert(END, ahok_count)
+            self.node_1_db_anies_1.delete("0", END)
+            self.node_1_db_anies_1.insert(END, anies_count)
+
+            self.node_2_db_ahok_1.delete("0", END)
+            self.node_2_db_ahok_1.insert(END, ahok_count)
+            self.node_2_db_anies_1.delete("0", END)
+            self.node_2_db_anies_1.insert(END, anies_count)
+
+            self.node_3_db_ahok_1.delete("0", END)
+            self.node_3_db_ahok_1.insert(END, ahok_count)
+            self.node_3_db_anies_1.delete("0", END)
+            self.node_3_db_anies_1.insert(END, anies_count)
+
+            self.node_4_db_ahok_1.delete("0", END)
+            self.node_4_db_ahok_1.insert(END, ahok_count)
+            self.node_4_db_anies_1.delete("0", END)
+            self.node_4_db_anies_1.insert(END, anies_count)
+
         if node_dest == 3:
             source_hash = self.hash_value_2
             prev_hash_value = self.prev_value_3
+            ahok_count = self.node_2_ahok_count.get()
+            anies_count = self.node_2_anies_count.get()
+
+            self.node_1_db_ahok_2.delete("0", END)
+            self.node_1_db_ahok_2.insert(END, ahok_count)
+            self.node_1_db_anies_2.delete("0", END)
+            self.node_1_db_anies_2.insert(END, anies_count)
+
+            self.node_2_db_ahok_2.delete("0", END)
+            self.node_2_db_ahok_2.insert(END, ahok_count)
+            self.node_2_db_anies_2.delete("0", END)
+            self.node_2_db_anies_2.insert(END, anies_count)
+
+            self.node_3_db_ahok_2.delete("0", END)
+            self.node_3_db_ahok_2.insert(END, ahok_count)
+            self.node_3_db_anies_2.delete("0", END)
+            self.node_3_db_anies_2.insert(END, anies_count)
+
+            self.node_4_db_ahok_2.delete("0", END)
+            self.node_4_db_ahok_2.insert(END, ahok_count)
+            self.node_4_db_anies_2.delete("0", END)
+            self.node_4_db_anies_2.insert(END, anies_count)
+
         if node_dest == 4:
             source_hash = self.hash_value_3
             prev_hash_value = self.prev_value_4
@@ -449,51 +497,14 @@ class Pemilu:
 
 
 
-                # self.tree = ttk.Treeview(self.master, height=20)
-        # self.tree.pack(side="right")
-        #
-        # self.vsb = ttk.Scrollbar(self.master, orient="vertical", command=self.tree.yview)
-        # self.vsb.pack(side='right', fill='y')
-        # self.tree.configure(yscrollcommand=self.vsb.set)
-        #
-        # self.tree["columns"] = ("#1", "#2")
-        # self.tree.heading("#0", text="Voter")
-        # self.tree.heading("#1", text="Pilihan")
-        # self.tree.heading("#2", text="Time stamp")
-        # self.tree.column("#1", width=100)
-        # self.tree.column("#2", width=120)
-        #
-        # with open("data.csv") as file:
-        #     data_pointer = csv.reader(file, delimiter=",")
-        #     list_data = list(data_pointer)
-        #
-        # count_vote = []
-        # for index, data in enumerate(list_data):
-        #     if data != [] :
-        #         count_vote.append(data[1])
-        #         self.tree.insert("", index, text=data[0], values=(data[1], data[2]))
-        #
-        # cf_ahok = Counter(count_vote).get('Ahok')
-        # cf_anies = Counter(count_vote).get('Anies')
-        # print(cf_ahok)
-        # print(cf_anies)
-        #
-        # self.tree.pack()
-        # self.tree.place(x=700, y=50)
+        i=1
+        while i < 5 :
+            with open('database_node{}.csv'.format(i), 'a', newline='') as csvfile:
+                write_csv = csv.writer(csvfile, delimiter = ',')
+                write_csv.writerow(['Ahok','Anies'])
+            i+=1
 
-        # You have to use lambda to pass paramater to the function that set as command parameter
-        #
-        # A = Button(root, text="Ahok-Djarot", command = lambda : self.choose_option(candidate='Ahok'), width=35, height=15, bg="red")
-        # A.place(x=50, y=50)
-        #
-        # B = Button(root, text="Anies-Sandi", command = lambda : self.choose_option(candidate='Anies'), width=35, height=15, bg="blue")
-        # B.place(x=320, y=50)
-        #
-        # self.cf_ahok_view = Label(root, text=cf_ahok, font=("Calibri", 44))
-        # self.cf_ahok_view.place(x=120, y=350)
-        #
-        # self.cf_anies_view = Label(root, text=cf_anies, font=("Calibri", 44))
-        # self.cf_anies_view.place(x=420, y=350)
+
 
     def generate_data(self):
         # print()
