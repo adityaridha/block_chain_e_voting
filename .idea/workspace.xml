@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b99733c1-7ae6-4d6d-b793-79183fac3acd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/database_node1.csv" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/database_node2.csv" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/database_node3.csv" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/database_node4.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/interface_test.py" afterPath="$PROJECT_DIR$/interface_test.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database_node1.csv" afterPath="$PROJECT_DIR$/database_node1.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database_node2.csv" afterPath="$PROJECT_DIR$/database_node2.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database_node3.csv" afterPath="$PROJECT_DIR$/database_node3.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database_node4.csv" afterPath="$PROJECT_DIR$/database_node4.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/master.py" afterPath="$PROJECT_DIR$/master.py" />
     </list>
     <ignored path="Blockchain.iws" />
@@ -32,11 +30,11 @@
       <file leaf-file-name="master.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/master.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7480">
-              <caret line="476" column="51" lean-forward="true" selection-start-line="476" selection-start-column="51" selection-end-line="476" selection-end-column="51" />
+            <state relative-caret-position="460">
+              <caret line="544" column="0" lean-forward="false" selection-start-line="544" selection-start-column="0" selection-end-line="544" selection-end-column="0" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
-                <element signature="e#18314#20050#0" expanded="false" />
+                <element signature="e#18325#20061#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -496,12 +494,19 @@
       <option name="project" value="LOCAL" />
       <updated>1497924622856</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="fill database step">
+      <created>1498039933308</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1498039933308</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1859375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -540,7 +545,8 @@
     <MESSAGE value="refactor method" />
     <MESSAGE value="update gitgnore" />
     <MESSAGE value="add generate data method" />
-    <option name="LAST_COMMIT_MESSAGE" value="add generate data method" />
+    <MESSAGE value="fill database step" />
+    <option name="LAST_COMMIT_MESSAGE" value="fill database step" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -594,7 +600,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#18314#20050#0" expanded="false" />
+            <element signature="e#18325#20061#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -625,7 +631,7 @@
           <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#18314#20050#0" expanded="false" />
+            <element signature="e#18325#20061#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -695,7 +701,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#18314#20050#0" expanded="false" />
+            <element signature="e#18325#20061#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -723,7 +729,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#18314#20050#0" expanded="false" />
+            <element signature="e#18325#20061#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -751,7 +757,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#18314#20050#0" expanded="false" />
+            <element signature="e#18325#20061#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -779,7 +785,7 @@
           <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#18314#20050#0" expanded="false" />
+            <element signature="e#18325#20061#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -807,7 +813,7 @@
           <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#18314#20050#0" expanded="false" />
+            <element signature="e#18325#20061#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -835,7 +841,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#18314#20050#0" expanded="false" />
+            <element signature="e#18325#20061#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -853,7 +859,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#18314#20050#0" expanded="false" />
+            <element signature="e#18325#20061#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -890,14 +896,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="19" lean-forward="false" selection-start-line="0" selection-start-column="19" selection-end-line="0" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -975,13 +973,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/master.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7480">
-          <caret line="476" column="51" lean-forward="true" selection-start-line="476" selection-start-column="51" selection-end-line="476" selection-end-column="51" />
+        <state relative-caret-position="460">
+          <caret line="544" column="0" lean-forward="false" selection-start-line="544" selection-start-column="0" selection-end-line="544" selection-end-column="0" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#18314#20050#0" expanded="false" />
+            <element signature="e#18325#20061#0" expanded="false" />
           </folding>
         </state>
       </provider>

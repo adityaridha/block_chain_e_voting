@@ -180,7 +180,7 @@ class Pemilu:
 
         height_button = 230
         hash_meth_4 = Button(self.main_frame, text="Hash", command=lambda: self.get_hash(node=4), width=9, height=1)
-        send_meth_4 = Button(self.main_frame, text="Broadcast", command=lambda : self.broadcast_hash(), width=9, height=1)
+        send_meth_4 = Button(self.main_frame, text="Broadcast", command=lambda : self.broadcast_hash(node_dest=5), width=9, height=1)
         disable_node = Button(self.main_frame, text="Disable", command=lambda: self.get_hash(node=1), fg='white', bg='#91181e', width=9, height=1)
         disable_node.place(x=270 + margin_4, y=height_button)
         hash_meth_4.place(x=100 + margin_4, y=height_button)
@@ -490,10 +490,59 @@ class Pemilu:
         if node_dest == 4:
             source_hash = self.hash_value_3
             prev_hash_value = self.prev_value_4
+            ahok_count = self.node_3_ahok_count.get()
+            anies_count = self.node_3_anies_count.get()
+
+            self.node_1_db_ahok_3.delete("0", END)
+            self.node_1_db_ahok_3.insert(END, ahok_count)
+            self.node_1_db_anies_3.delete("0", END)
+            self.node_1_db_anies_3.insert(END, anies_count)
+
+            self.node_2_db_ahok_3.delete("0", END)
+            self.node_2_db_ahok_3.insert(END, ahok_count)
+            self.node_2_db_anies_3.delete("0", END)
+            self.node_2_db_anies_3.insert(END, anies_count)
+
+            self.node_3_db_ahok_3.delete("0", END)
+            self.node_3_db_ahok_3.insert(END, ahok_count)
+            self.node_3_db_anies_3.delete("0", END)
+            self.node_3_db_anies_3.insert(END, anies_count)
+
+            self.node_4_db_ahok_3.delete("0", END)
+            self.node_4_db_ahok_3.insert(END, ahok_count)
+            self.node_4_db_anies_3.delete("0", END)
+            self.node_4_db_anies_3.insert(END, anies_count)
+
+
+        if node_dest ==5:
+            ahok_count = self.node_4_ahok_count.get()
+            anies_count = self.node_4_anies_count.get()
+
+            self.node_1_db_ahok_4.delete("0", END)
+            self.node_1_db_ahok_4.insert(END, ahok_count)
+            self.node_1_db_anies_4.delete("0", END)
+            self.node_1_db_anies_4.insert(END, anies_count)
+
+            self.node_2_db_ahok_4.delete("0", END)
+            self.node_2_db_ahok_4.insert(END, ahok_count)
+            self.node_2_db_anies_4.delete("0", END)
+            self.node_2_db_anies_4.insert(END, anies_count)
+
+            self.node_3_db_ahok_4.delete("0", END)
+            self.node_3_db_ahok_4.insert(END, ahok_count)
+            self.node_3_db_anies_4.delete("0", END)
+            self.node_3_db_anies_4.insert(END, anies_count)
+
+            self.node_4_db_ahok_4.delete("0", END)
+            self.node_4_db_ahok_4.insert(END, ahok_count)
+            self.node_4_db_anies_4.delete("0", END)
+            self.node_4_db_anies_4.insert(END, anies_count)
 
         hash_value = source_hash.get(1.0, END)
         prev_hash_value.delete("1.0", END)
         prev_hash_value.insert(END, hash_value)
+
+
 
 
 
