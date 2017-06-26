@@ -441,25 +441,8 @@ class Pemilu:
             ahok_count = self.node_1_ahok_count.get()
             anies_count = self.node_1_anies_count.get()
 
-            self.node_1_db_ahok_1.delete("0", END)
-            self.node_1_db_ahok_1.insert(END, ahok_count)
-            self.node_1_db_anies_1.delete("0", END)
-            self.node_1_db_anies_1.insert(END, anies_count)
-
-            self.node_2_db_ahok_1.delete("0", END)
-            self.node_2_db_ahok_1.insert(END, ahok_count)
-            self.node_2_db_anies_1.delete("0", END)
-            self.node_2_db_anies_1.insert(END, anies_count)
-
-            self.node_3_db_ahok_1.delete("0", END)
-            self.node_3_db_ahok_1.insert(END, ahok_count)
-            self.node_3_db_anies_1.delete("0", END)
-            self.node_3_db_anies_1.insert(END, anies_count)
-
-            self.node_4_db_ahok_1.delete("0", END)
-            self.node_4_db_ahok_1.insert(END, ahok_count)
-            self.node_4_db_anies_1.delete("0", END)
-            self.node_4_db_anies_1.insert(END, anies_count)
+            list_db_ahok = [self.node_1_db_ahok_1, self.node_2_db_ahok_1, self.node_3_db_ahok_1, self.node_4_db_ahok_1]
+            list_db_anies = [self.node_1_db_anies_1, self.node_2_db_anies_1, self.node_3_db_anies_1, self.node_4_db_anies_1]
 
         if node_dest == 3:
             source_hash = self.hash_value_2
@@ -467,25 +450,8 @@ class Pemilu:
             ahok_count = self.node_2_ahok_count.get()
             anies_count = self.node_2_anies_count.get()
 
-            self.node_1_db_ahok_2.delete("0", END)
-            self.node_1_db_ahok_2.insert(END, ahok_count)
-            self.node_1_db_anies_2.delete("0", END)
-            self.node_1_db_anies_2.insert(END, anies_count)
-
-            self.node_2_db_ahok_2.delete("0", END)
-            self.node_2_db_ahok_2.insert(END, ahok_count)
-            self.node_2_db_anies_2.delete("0", END)
-            self.node_2_db_anies_2.insert(END, anies_count)
-
-            self.node_3_db_ahok_2.delete("0", END)
-            self.node_3_db_ahok_2.insert(END, ahok_count)
-            self.node_3_db_anies_2.delete("0", END)
-            self.node_3_db_anies_2.insert(END, anies_count)
-
-            self.node_4_db_ahok_2.delete("0", END)
-            self.node_4_db_ahok_2.insert(END, ahok_count)
-            self.node_4_db_anies_2.delete("0", END)
-            self.node_4_db_anies_2.insert(END, anies_count)
+            list_db_ahok = [self.node_1_db_ahok_2, self.node_2_db_ahok_2, self.node_3_db_ahok_2, self.node_4_db_ahok_2]
+            list_db_anies = [self.node_1_db_anies_2, self.node_2_db_anies_2, self.node_3_db_anies_2, self.node_4_db_anies_2]
 
         if node_dest == 4:
             source_hash = self.hash_value_3
@@ -493,58 +459,36 @@ class Pemilu:
             ahok_count = self.node_3_ahok_count.get()
             anies_count = self.node_3_anies_count.get()
 
-            self.node_1_db_ahok_3.delete("0", END)
-            self.node_1_db_ahok_3.insert(END, ahok_count)
-            self.node_1_db_anies_3.delete("0", END)
-            self.node_1_db_anies_3.insert(END, anies_count)
+            list_db_ahok = [self.node_1_db_ahok_3, self.node_2_db_ahok_3, self.node_3_db_ahok_3, self.node_4_db_ahok_3]
+            list_db_anies = [self.node_1_db_anies_3, self.node_2_db_anies_3, self.node_3_db_anies_3, self.node_4_db_anies_3]
 
-            self.node_2_db_ahok_3.delete("0", END)
-            self.node_2_db_ahok_3.insert(END, ahok_count)
-            self.node_2_db_anies_3.delete("0", END)
-            self.node_2_db_anies_3.insert(END, anies_count)
-
-            self.node_3_db_ahok_3.delete("0", END)
-            self.node_3_db_ahok_3.insert(END, ahok_count)
-            self.node_3_db_anies_3.delete("0", END)
-            self.node_3_db_anies_3.insert(END, anies_count)
-
-            self.node_4_db_ahok_3.delete("0", END)
-            self.node_4_db_ahok_3.insert(END, ahok_count)
-            self.node_4_db_anies_3.delete("0", END)
-            self.node_4_db_anies_3.insert(END, anies_count)
-
-
-        if node_dest ==5:
+        if node_dest == 5:
             ahok_count = self.node_4_ahok_count.get()
             anies_count = self.node_4_anies_count.get()
 
-            self.node_1_db_ahok_4.delete("0", END)
-            self.node_1_db_ahok_4.insert(END, ahok_count)
-            self.node_1_db_anies_4.delete("0", END)
-            self.node_1_db_anies_4.insert(END, anies_count)
+            list_db_ahok = [self.node_1_db_ahok_4, self.node_2_db_ahok_4, self.node_3_db_ahok_4, self.node_4_db_ahok_4]
+            list_db_anies = [self.node_1_db_anies_4, self.node_2_db_anies_4, self.node_3_db_anies_4, self.node_4_db_anies_4]
 
-            self.node_2_db_ahok_4.delete("0", END)
-            self.node_2_db_ahok_4.insert(END, ahok_count)
-            self.node_2_db_anies_4.delete("0", END)
-            self.node_2_db_anies_4.insert(END, anies_count)
+        ''' broadcast data '''
 
-            self.node_3_db_ahok_4.delete("0", END)
-            self.node_3_db_ahok_4.insert(END, ahok_count)
-            self.node_3_db_anies_4.delete("0", END)
-            self.node_3_db_anies_4.insert(END, anies_count)
+        list_node = [2,3,4]
 
-            self.node_4_db_ahok_4.delete("0", END)
-            self.node_4_db_ahok_4.insert(END, ahok_count)
-            self.node_4_db_anies_4.delete("0", END)
-            self.node_4_db_anies_4.insert(END, anies_count)
+        if node_dest in list_node :
+            hash_value = source_hash.get(1.0, END)
+            prev_hash_value.delete("1.0", END)
+            prev_hash_value.insert(END, hash_value)
 
-        hash_value = source_hash.get(1.0, END)
-        prev_hash_value.delete("1.0", END)
-        prev_hash_value.insert(END, hash_value)
+        ''' populate data to database '''
 
+        for db in list_db_ahok:
+            db.delete("0", END)
+            db.insert(END, ahok_count)
 
+        for db in list_db_anies:
+            db.delete("0", END)
+            db.insert(END, anies_count)
 
-
+        ''' save data to database '''
 
         i=1
         while i < 5 :
@@ -554,26 +498,51 @@ class Pemilu:
             i+=1
 
 
+        ''' counting data '''
+
+        try:
+            node_1_count = int(self.node_1_db_ahok_1.get())
+        except ValueError :
+            node_1_count = 0
+
+        try:
+            node_2_count = int(self.node_1_db_ahok_2.get())
+        except ValueError :
+            node_2_count = 0
+
+        try:
+            node_3_count = int(self.node_1_db_ahok_3.get())
+        except ValueError :
+            node_3_count = 0
+
+        try:
+            node_4_count = int(self.node_1_db_ahok_4.get())
+        except ValueError :
+            node_4_count = 0
+
+        total = node_1_count + node_2_count + node_3_count + node_4_count
+
+        total_ahok_frame = [self.node_1_db_ahok_total,
+                            self.node_2_db_ahok_total,
+                            self.node_3_db_ahok_total,
+                            self.node_4_db_ahok_total]
+
+        for db in total_ahok_frame :
+            db.delete("0",END)
+            db.insert(END,total)
+
+
+
 
     def generate_data(self):
-        # print()
-        self.node_1_ahok_count.delete("0", END)
-        self.node_1_ahok_count.insert(END,randint(30,100))
-        self.node_2_ahok_count.delete("0", END)
-        self.node_2_ahok_count.insert(END,randint(30,100))
-        self.node_3_ahok_count.delete("0", END)
-        self.node_3_ahok_count.insert(END,randint(30,100))
-        self.node_4_ahok_count.delete("0", END)
-        self.node_4_ahok_count.insert(END,randint(30,100))
 
-        self.node_1_anies_count.delete("0", END)
-        self.node_1_anies_count.insert(END, randint(30,100))
-        self.node_2_anies_count.delete("0", END)
-        self.node_2_anies_count.insert(END, randint(30,100))
-        self.node_3_anies_count.delete("0", END)
-        self.node_3_anies_count.insert(END, randint(30,100))
-        self.node_4_anies_count.delete("0", END)
-        self.node_4_anies_count.insert(END, randint(30,100))
+        frame_list_ahok = [self.node_1_ahok_count, self.node_2_ahok_count, self.node_3_ahok_count, self.node_4_ahok_count]
+        frame_list_anies = [self.node_1_anies_count, self.node_2_anies_count, self.node_3_anies_count, self.node_4_anies_count]
+
+        for candidates in zip(frame_list_ahok, frame_list_anies) :
+            for candidate in candidates :
+                candidate.delete("0", END)
+                candidate.insert(END, randint(1,5))
 
 
 
