@@ -12,19 +12,18 @@ class Pemilu:
 
     def __init__(self, master):
 
-
         self.root = master
         self.myvar = ''
         self.main_frame = Canvas(self.root)
         self.main_frame.pack(side=TOP, fill=BOTH, expand=TRUE)
 
-        self.scroll_bar = Scrollbar(self.root, orient=HORIZONTAL)
-        self.scroll_bar.pack(side=BOTTOM, fill=X)
 
-        self.main_frame.configure(xscrollcommand=self.scroll_bar.set)
-        self.my_font = font.Font(family="Segoe UI", size=9)
+        '''scroll bar still not working'''
+        # self.scroll_bar = Scrollbar(self.root, orient=VERTICAL)
+        # self.scroll_bar.pack(side=RIGHT, fill=Y)
+        # self.main_frame.configure(xscrollcommand=self.scroll_bar.set)
 
-
+        self.my_font = font.Font(family="Segoe UI", size=7)
 
         ''' NODE #1 widget declaration'''
 
@@ -47,10 +46,11 @@ class Pemilu:
         self.node_1_anies_count.place(x=node_1_margin_x+60, y=76)
 
         self.gen_label = Label(text="Genesis")
-        self.gen_value = Text(self.main_frame, width=40, height=3, font=self.my_font)
-        self.gen_label.place(x=node_1_margin_x+10,  y=102)
-        self.gen_value.place(x=node_1_margin_x+60, y=102)
+        self.gen_value = Text(self.main_frame, width=30, height=3)
         self.gen_value.grid_propagate(False)
+        self.gen_label.place(x=node_1_margin_x+10,  y=102)
+        self.gen_value.place(x=node_1_margin_x+60,  y=102)
+
 
         self.gen_value.insert(END, "this is Genesis")
         self.gen_value.configure(state=DISABLED, bg="#d4d6d8")
@@ -186,7 +186,7 @@ class Pemilu:
         hash_meth_4.place(x=100 + margin_4, y=height_button)
         send_meth_4.place(x=185 + margin_4, y=height_button)
 
-        self.scroll_bar.config(command=self.main_frame.xview())
+        # self.scroll_bar.config(command=self.main_frame.xview())
 
         '''Database Layout'''
 
@@ -199,8 +199,9 @@ class Pemilu:
         node_1_x_level_two = node_1_x_level_one + 50
         node_index_label = 180
 
-        self.node_1_db = Text(self.main_frame, width=20, height=9)
+        self.node_1_db = Text(self.main_frame, width=32, height=12, font=self.my_font)
         self.node_1_db.place(x=node_1_margin_x, y=node_1_y_level)
+
 
         Label(text="Node#1").place(x=node_index_label, y=node_1_y_level)
         self.node_1_db_ahok_1 = Entry(self.main_frame, width=7)
@@ -250,7 +251,7 @@ class Pemilu:
         node_1_x_level_two = node_1_x_level_one + 50
         node_index_label = node_1_x_level_one - 60
 
-        self.node_2_db = Text(self.main_frame, width=20, height=9)
+        self.node_2_db = Text(self.main_frame, width=32, height=12, font=self.my_font)
         self.node_2_db.place(x=10+add_margin, y=node_1_y_level)
 
         Label(text="Node#1").place(x=node_index_label, y=node_1_y_level)
@@ -301,7 +302,7 @@ class Pemilu:
         node_1_x_level_two = node_1_x_level_one + 50
         node_index_label = node_1_x_level_one - 60
 
-        self.node_3_db = Text(self.main_frame, width=20, height=9)
+        self.node_3_db = Text(self.main_frame, width=32, height=12, font=self.my_font)
         self.node_3_db.place(x=10+add_margin, y=node_1_y_level)
 
         Label(text="Node#1").place(x=node_index_label, y=node_1_y_level)
@@ -352,7 +353,7 @@ class Pemilu:
         node_1_x_level_two = node_1_x_level_one + 50
         node_index_label = node_1_x_level_one - 60
 
-        self.node_4_db = Text(self.main_frame, width=20, height=9)
+        self.node_4_db = Text(self.main_frame, width=32, height=12, font=self.my_font)
         self.node_4_db.place(x=10+add_margin, y=node_1_y_level)
 
         Label(text="Node#1").place(x=node_index_label, y=node_1_y_level)
@@ -392,8 +393,6 @@ class Pemilu:
 
 
         Button(text='Generate Data', width=15, height=2, bg='#f8c659', command=self.generate_data).place(x=node_1_margin_x, y=node_5_level+100)
-
-
 
     def get_hash(self,node):
         if node == 1:
@@ -490,48 +489,72 @@ class Pemilu:
 
         ''' save data to database '''
 
-        i=1
-        while i < 5 :
-            with open('database_node{}.csv'.format(i), 'a', newline='') as csvfile:
-                write_csv = csv.writer(csvfile, delimiter = ',')
-                write_csv.writerow(['Ahok','Anies'])
-            i+=1
+        # i=1
+        # while i < 5 :
+        #     with open('database_node{}.csv'.format(i), 'a', newline='') as csvfile:
+        #         write_csv = csv.writer(csvfile, delimiter = ',')
+        #         write_csv.writerow(['Ahok','Anies'])
+        #     i+=1
 
 
         ''' counting data '''
 
         try:
-            node_1_count = int(self.node_1_db_ahok_1.get())
+            node_1_count_ahok = int(self.node_1_db_ahok_1.get())
+            node_1_count_anies = int(self.node_1_db_anies_1.get())
         except ValueError :
-            node_1_count = 0
+            node_1_count_ahok = 0
+            node_1_count_anies = 0
 
         try:
-            node_2_count = int(self.node_1_db_ahok_2.get())
+            node_2_count_ahok = int(self.node_1_db_ahok_2.get())
+            node_2_count_anies = int(self.node_1_db_anies_2.get())
         except ValueError :
-            node_2_count = 0
+            node_2_count_ahok = 0
+            node_2_count_anies = 0
+
 
         try:
-            node_3_count = int(self.node_1_db_ahok_3.get())
+            node_3_count_ahok = int(self.node_1_db_ahok_3.get())
+            node_3_count_anies = int(self.node_1_db_anies_3.get())
         except ValueError :
-            node_3_count = 0
+            node_3_count_ahok = 0
+            node_3_count_anies = 0
 
         try:
-            node_4_count = int(self.node_1_db_ahok_4.get())
+            node_4_count_ahok = int(self.node_1_db_ahok_4.get())
+            node_4_count_anies = int(self.node_1_db_anies_4.get())
         except ValueError :
-            node_4_count = 0
+            node_4_count_ahok = 0
+            node_4_count_anies = 0
 
-        total = node_1_count + node_2_count + node_3_count + node_4_count
+        total_ahok  = node_1_count_ahok + node_2_count_ahok + node_3_count_ahok + node_4_count_ahok
+        total_anies = node_1_count_anies + node_2_count_anies + node_3_count_anies + node_4_count_anies
 
         total_ahok_frame = [self.node_1_db_ahok_total,
                             self.node_2_db_ahok_total,
                             self.node_3_db_ahok_total,
                             self.node_4_db_ahok_total]
 
+        total_anies_frame = [self.node_1_db_anies_total,
+                            self.node_2_db_anies_total,
+                            self.node_3_db_anies_total,
+                            self.node_4_db_anies_total]
+
         for db in total_ahok_frame :
             db.delete("0",END)
-            db.insert(END,total)
+            db.insert(END,total_ahok)
 
+        for db in total_anies_frame :
+            db.delete("0",END)
+            db.insert(END,total_anies)
 
+        voting_data = list(self.read_database())
+        print(voting_data[0])
+        print(voting_data[0][0])
+
+        self.node_1_db.delete("1.0",END)
+        self.node_1_db.insert(END,voting_data[0][0])
 
 
     def generate_data(self):
@@ -544,7 +567,16 @@ class Pemilu:
                 candidate.delete("0", END)
                 candidate.insert(END, randint(1,5))
 
+    def read_database(self):
+        list_database = ["database_node1.csv", "database_node2.csv", "database_node3.csv", "database_node4.csv"]
+        data_shell = []
+        for database in list_database :
+            with open(database) as voting_database :
+                voting_data = csv.reader(voting_database, delimiter=',')
+                data_shell.append(list(voting_data))
 
+
+        return data_shell
 
     def choose_option(self, candidate):
         time = datetime.datetime.now().replace(microsecond=0)
