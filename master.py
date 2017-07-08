@@ -2,10 +2,13 @@ import csv
 import hashlib
 import datetime
 import time
+import ecdsa
 from tkinter import *
 from tkinter import font
 from collections import Counter
 from random import randint
+from ecdsa import BadSignatureError
+from ecdsa import SigningKey, VerifyingKey
 
 
 class Pemilu:
@@ -65,6 +68,7 @@ class Pemilu:
         self.key_value = Text(self.main_frame, width=30, height=3)
         self.key_label.place(x=node_1_margin_x + 20, y=height_key)
         self.key_value.place(x=node_1_margin_x + 60, y=height_key)
+        self.key_value.insert(END,open("certificate/private_1.pem").read())
 
         height_button = 300
         hash_meth = Button(self.main_frame, text="Hash", command=lambda: self.get_hash(node=1), width=9, height=1)
@@ -108,6 +112,7 @@ class Pemilu:
         self.key_value = Text(self.main_frame, width=30, height=3)
         self.key_label.place(x=60 + margin_2, y=height_key)
         self.key_value.place(x=100 + margin_2, y=height_key)
+        self.key_value.insert(END,open("certificate/private_2.pem").read())
 
         hash_meth_2 = Button(self.main_frame, text="Hash", command=lambda: self.get_hash(node=2), width=9, height=1)
         send_meth_2 = Button(self.main_frame, text="Broadcast", command=lambda: self.broadcast_hash(node_dest=3), width=9, height=1)
@@ -150,6 +155,7 @@ class Pemilu:
         self.key_value = Text(self.main_frame, width=30, height=3)
         self.key_label.place(x=60 + margin_3, y=height_key)
         self.key_value.place(x=100 + margin_3, y=height_key)
+        self.key_value.insert(END,open("certificate/private_3.pem").read())
 
         hash_meth_3 = Button(self.main_frame, text="Hash", command=lambda: self.get_hash(node=3), width=9, height=1)
         send_meth_3 = Button(self.main_frame, text="Broadcast", command=lambda: self.broadcast_hash(node_dest=4), width=9, height=1)
@@ -192,6 +198,7 @@ class Pemilu:
         self.key_value = Text(self.main_frame, width=30, height=3)
         self.key_label.place(x=60 + margin_4, y=height_key)
         self.key_value.place(x=100+margin_4, y=height_key)
+        self.key_value.insert(END,open("certificate/private_4.pem").read())
 
         hash_meth_4 = Button(self.main_frame, text="Hash", command=lambda: self.get_hash(node=4), width=9, height=1)
         send_meth_4 = Button(self.main_frame, text="Broadcast", command=lambda: self.broadcast_hash(node_dest=5), width=9, height=1)
