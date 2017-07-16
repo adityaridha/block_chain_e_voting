@@ -4,7 +4,7 @@ import datetime
 import time
 import ecdsa
 from tkinter import *
-from tkinter import font
+from tkinter import font, ttk
 from collections import Counter
 from random import randint
 from ecdsa import BadSignatureError
@@ -55,7 +55,7 @@ class Pemilu:
         self.gen_value.place(x=node_1_margin_x+60,  y=102)
 
         self.gen_value.insert(END, "this is Genesis")
-        self.gen_value.configure(state=DISABLED, bg="#d4d6d8")
+        self.gen_value.configure(state=DISABLED)
 
         height_hash = 162
         self.hash_label = Label(text="Hash")
@@ -65,18 +65,19 @@ class Pemilu:
 
         height_key = 225
         self.key_label = Label(text="Key")
-        self.key_value = Text(self.main_frame, width=30, height=3)
+        self.node_1_key_value = Text(self.main_frame, width=30, height=3)
         self.key_label.place(x=node_1_margin_x + 20, y=height_key)
-        self.key_value.place(x=node_1_margin_x + 60, y=height_key)
-        self.key_value.insert(END,open("certificate/private_1.pem").read())
+        self.node_1_key_value.place(x=node_1_margin_x + 60, y=height_key)
+        self.node_1_key_value.delete('1.0', END)
+        self.node_1_key_value.insert('1.0',open("certificate/private_1.pem").read())
 
         height_button = 300
-        hash_meth = Button(self.main_frame, text="Hash", command=lambda: self.get_hash(node=1), width=9, height=1)
-        send_meth = Button(self.main_frame, text="Broadcast", command=lambda: self.broadcast_hash(node_dest=2), width=9, height=1)
-        disable_node = Button(self.main_frame, text="Disable", command=lambda: self.get_hash(node=1), fg='white', bg='#91181e', width=9, height=1)
-        disable_node.place(x=node_1_margin_x+230, y=height_button)
-        hash_meth.place(x=node_1_margin_x+60, y=height_button)
-        send_meth.place(x=node_1_margin_x+145, y=height_button)
+        self.hash_meth = Button(self.main_frame, text="Hash", command=lambda: self.get_hash(node=1), width=9, height=1)
+        self.send_meth = Button(self.main_frame, text="Broadcast", command=lambda: self.broadcast_hash(node_dest=2), width=9, height=1)
+        self.disb_node = Button(self.main_frame, text="Disable", command=lambda: self.disable_node(node=1), fg='white', bg='#91181e', width=9, height=1)
+        self.disb_node.place(x=node_1_margin_x+230, y=height_button)
+        self.hash_meth.place(x=node_1_margin_x+60, y=height_button)
+        self.send_meth.place(x=node_1_margin_x+145, y=height_button)
 
         ''' NODE #2 widget declaration'''
 
@@ -109,17 +110,17 @@ class Pemilu:
         self.hash_value_2.place(x=100 + margin_2, y=height_hash)
 
         self.key_label = Label(text="Key")
-        self.key_value = Text(self.main_frame, width=30, height=3)
+        self.node_2_key_value = Text(self.main_frame, width=30, height=3)
         self.key_label.place(x=60 + margin_2, y=height_key)
-        self.key_value.place(x=100 + margin_2, y=height_key)
-        self.key_value.insert(END,open("certificate/private_2.pem").read())
+        self.node_2_key_value.place(x=100 + margin_2, y=height_key)
+        self.node_2_key_value.insert(END,open("certificate/private_2.pem").read())
 
-        hash_meth_2 = Button(self.main_frame, text="Hash", command=lambda: self.get_hash(node=2), width=9, height=1)
-        send_meth_2 = Button(self.main_frame, text="Broadcast", command=lambda: self.broadcast_hash(node_dest=3), width=9, height=1)
-        disable_node = Button(self.main_frame, text="Disable", command=lambda: self.get_hash(node=1), fg='white', bg='#91181e', width=9, height=1)
-        disable_node.place(x=270 + margin_2, y=height_button)
-        hash_meth_2.place(x=100+margin_2, y=height_button)
-        send_meth_2.place(x=185+margin_2, y=height_button)
+        self.hash_meth_2 = Button(self.main_frame, text="Hash", command=lambda: self.get_hash(node=2), width=9, height=1)
+        self.send_meth_2 = Button(self.main_frame, text="Broadcast", command=lambda: self.broadcast_hash(node_dest=3), width=9, height=1)
+        self.disb_node_2 = Button(self.main_frame, text="Disable", command=lambda: self.disable_node(node=2), fg='white', bg='#91181e', width=9, height=1)
+        self.disb_node_2.place(x=270 + margin_2, y=height_button)
+        self.hash_meth_2.place(x=100+margin_2, y=height_button)
+        self.send_meth_2.place(x=185+margin_2, y=height_button)
 
         ''' NODE #3 widget declaration'''
 
@@ -152,17 +153,17 @@ class Pemilu:
         self.hash_value_3.place(x=100 + margin_3, y=height_hash)
 
         self.key_label = Label(text="Key")
-        self.key_value = Text(self.main_frame, width=30, height=3)
+        self.node_3_key_value = Text(self.main_frame, width=30, height=3)
         self.key_label.place(x=60 + margin_3, y=height_key)
-        self.key_value.place(x=100 + margin_3, y=height_key)
-        self.key_value.insert(END,open("certificate/private_3.pem").read())
+        self.node_3_key_value.place(x=100 + margin_3, y=height_key)
+        self.node_3_key_value.insert(END,open("certificate/private_3.pem").read())
 
-        hash_meth_3 = Button(self.main_frame, text="Hash", command=lambda: self.get_hash(node=3), width=9, height=1)
-        send_meth_3 = Button(self.main_frame, text="Broadcast", command=lambda: self.broadcast_hash(node_dest=4), width=9, height=1)
-        disable_node = Button(self.main_frame, text="Disable", command=lambda: self.get_hash(node=1), fg='white', bg='#91181e', width=9, height=1)
-        disable_node.place(x=270 + margin_3, y=height_button)
-        hash_meth_3.place(x=100 + margin_3, y=height_button)
-        send_meth_3.place(x=185 + margin_3, y=height_button)
+        self.hash_meth_3 = Button(self.main_frame, text="Hash", command=lambda: self.get_hash(node=3), width=9, height=1)
+        self.send_meth_3 = Button(self.main_frame, text="Broadcast", command=lambda: self.broadcast_hash(node_dest=4), width=9, height=1)
+        self.disb_node_3 = Button(self.main_frame, text="Disable", command=lambda: self.disable_node(node=3), fg='white', bg='#91181e', width=9, height=1)
+        self.disb_node_3.place(x=270 + margin_3, y=height_button)
+        self.hash_meth_3.place(x=100 + margin_3, y=height_button)
+        self.send_meth_3.place(x=185 + margin_3, y=height_button)
 
         ''' NODE #4 widget declaration'''
 
@@ -195,17 +196,17 @@ class Pemilu:
         self.hash_value_4.place(x=100 + margin_4, y=height_hash)
 
         self.key_label = Label(text="Key")
-        self.key_value = Text(self.main_frame, width=30, height=3)
+        self.node_4_key_value = Text(self.main_frame, width=30, height=3)
         self.key_label.place(x=60 + margin_4, y=height_key)
-        self.key_value.place(x=100+margin_4, y=height_key)
-        self.key_value.insert(END,open("certificate/private_4.pem").read())
+        self.node_4_key_value.place(x=100+margin_4, y=height_key)
+        self.node_4_key_value.insert(END,open("certificate/private_4.pem").read())
 
-        hash_meth_4 = Button(self.main_frame, text="Hash", command=lambda: self.get_hash(node=4), width=9, height=1)
-        send_meth_4 = Button(self.main_frame, text="Broadcast", command=lambda: self.broadcast_hash(node_dest=5), width=9, height=1)
-        disable_node = Button(self.main_frame, text="Disable", command=lambda: self.get_hash(node=1), fg='white', bg='#91181e', width=9, height=1)
-        disable_node.place(x=270 + margin_4, y=height_button)
-        hash_meth_4.place(x=100 + margin_4, y=height_button)
-        send_meth_4.place(x=185 + margin_4, y=height_button)
+        self.hash_meth_4 = Button(self.main_frame, text="Hash", command=lambda: self.get_hash(node=4), width=9, height=1)
+        self.send_meth_4 = Button(self.main_frame, text="Broadcast", command=lambda: self.broadcast_hash(node_dest=5), width=9, height=1)
+        self.disb_node_4 = Button(self.main_frame, text="Disable", command=lambda: self.disable_node(node=4), fg='white', bg='#91181e', width=9, height=1)
+        self.disb_node_4.place(x=270 + margin_4, y=height_button)
+        self.hash_meth_4.place(x=100 + margin_4, y=height_button)
+        self.send_meth_4.place(x=185 + margin_4, y=height_button)
 
         # self.scroll_bar.config(command=self.main_frame.xview())
 
@@ -219,6 +220,8 @@ class Pemilu:
         Label(text="Anies").place(x=290, y=header_height)
 
         Label(text="Signature check : ").place(x=node_1_margin_x, y=header_height)
+        self.verif_label_1 = Label(text="-")
+        self.verif_label_1.place(x=100 + node_1_margin_x, y=header_height)
 
         node_1_y_level = 430
         node_1_x_level_one = 240
@@ -271,6 +274,8 @@ class Pemilu:
         Label(text="Anies").place(x=290+add_margin, y=header_height)
 
         Label(text="Signature check : ").place(x=350, y=header_height)
+        self.verif_label_2 = Label(text="-")
+        self.verif_label_2.place(x=110 + add_margin, y=header_height)
 
         node_1_x_level_one = 240+add_margin
         node_1_x_level_two = node_1_x_level_one + 50
@@ -322,6 +327,8 @@ class Pemilu:
         Label(text="Anies").place(x=290+add_margin, y=header_height)
 
         Label(text="Signature check : ").place(x=10+add_margin, y=header_height)
+        self.verif_label_3 = Label(text="-")
+        self.verif_label_3.place(x=110 + add_margin, y=header_height)
 
         node_1_x_level_one = 240+add_margin
         node_1_x_level_two = node_1_x_level_one + 50
@@ -373,6 +380,8 @@ class Pemilu:
         Label(text="Anies").place(x=290+add_margin, y=header_height)
 
         Label(text="Signature check : ").place(x=10+add_margin, y=header_height)
+        self.verif_label_4 = Label(text="-")
+        self.verif_label_4.place(x=110+add_margin, y=header_height)
 
         node_1_x_level_one = 240+add_margin
         node_1_x_level_two = node_1_x_level_one + 50
@@ -415,7 +424,15 @@ class Pemilu:
         self.node_4_db_anies_total = Entry(self.main_frame, width=7)
         self.node_4_db_anies_total.place(x=node_1_x_level_two, y=node_5_level)
 
+        ''' counter view '''
+
+        self.count_label = Label(text="-", font=("Helvetica", 35))
+        self.count_label.place(x=1240, y=540 + 100)
+        self.remaining = 0
+
         Button(text='Generate Data', width=15, height=2, bg='#f8c659', command=self.generate_data).place(x=node_1_margin_x, y=node_5_level+100)
+        Button(text='Sync Data', width=15, height=2, bg='#f8c659', command= lambda: self.countdown(10)).place(x=node_1_margin_x, y=node_5_level + 140)
+        Button(text='Clear DB', width=15, height=2, bg='#f8c659', command= self.clear_db).place(x=node_1_margin_x, y=node_5_level + 180)
 
     def get_hash(self, node):
         if node == 1:
@@ -462,6 +479,7 @@ class Pemilu:
             prev_hash_value = self.prev_value_2
             ahok_count = self.node_1_ahok_count.get()
             anies_count = self.node_1_anies_count.get()
+            key = self.node_1_key_value.get('1.0', 'end-1c')
 
             list_db_ahok = [self.node_1_db_ahok_1, self.node_2_db_ahok_1, self.node_3_db_ahok_1, self.node_4_db_ahok_1]
             list_db_anies = [self.node_1_db_anies_1, self.node_2_db_anies_1, self.node_3_db_anies_1, self.node_4_db_anies_1]
@@ -471,6 +489,7 @@ class Pemilu:
             prev_hash_value = self.prev_value_3
             ahok_count = self.node_2_ahok_count.get()
             anies_count = self.node_2_anies_count.get()
+            key = self.node_2_key_value.get('1.0', 'end-1c')
 
             list_db_ahok = [self.node_1_db_ahok_2, self.node_2_db_ahok_2, self.node_3_db_ahok_2, self.node_4_db_ahok_2]
             list_db_anies = [self.node_1_db_anies_2, self.node_2_db_anies_2, self.node_3_db_anies_2, self.node_4_db_anies_2]
@@ -480,6 +499,7 @@ class Pemilu:
             prev_hash_value = self.prev_value_4
             ahok_count = self.node_3_ahok_count.get()
             anies_count = self.node_3_anies_count.get()
+            key = self.node_3_key_value.get('1.0', 'end-1c')
 
             list_db_ahok = [self.node_1_db_ahok_3, self.node_2_db_ahok_3, self.node_3_db_ahok_3, self.node_4_db_ahok_3]
             list_db_anies = [self.node_1_db_anies_3, self.node_2_db_anies_3, self.node_3_db_anies_3, self.node_4_db_anies_3]
@@ -487,20 +507,20 @@ class Pemilu:
         if node_dest == 5:
             ahok_count = self.node_4_ahok_count.get()
             anies_count = self.node_4_anies_count.get()
+            key = self.node_4_key_value.get('1.0', 'end-1c')
 
             list_db_ahok = [self.node_1_db_ahok_4, self.node_2_db_ahok_4, self.node_3_db_ahok_4, self.node_4_db_ahok_4]
             list_db_anies = [self.node_1_db_anies_4, self.node_2_db_anies_4, self.node_3_db_anies_4, self.node_4_db_anies_4]
 
-        ''' broadcast data '''
+        ''' broadcast data prev Hash '''
 
         list_node = [2, 3, 4]
-
         if node_dest in list_node :
             hash_value = source_hash.get(1.0, END)
             prev_hash_value.delete("1.0", END)
             prev_hash_value.insert(END, hash_value)
 
-        ''' populate data to database '''
+        ''' populate data to database UI '''
 
         for db in list_db_ahok:
             db.delete("0", END)
@@ -510,14 +530,38 @@ class Pemilu:
             db.delete("0", END)
             db.insert(END, anies_count)
 
-        ''' save data to database '''
+        ''' security verification '''
 
-        # i=1
-        # while i < 5 :
-        #     with open('database_node{}.csv'.format(i), 'a', newline='') as csvfile:
-        #         write_csv = csv.writer(csvfile, delimiter = ',')
-        #         write_csv.writerow(['Ahok','Anies'])
-        #     i+=1
+        self.verification(key)
+
+        ''' precheck database '''
+
+        with open('database/database_node1.csv') as csvfile:
+            pointer_data = csv.reader(csvfile, delimiter=',')
+            data = list(pointer_data)
+
+        is_duplicated = False
+        z=0
+        if len(data) != 0 :
+            while z < len(data):
+                print(data[z][0])
+                if data[z][0] == 'id: Database{}'.format(node_dest-1):
+                    is_duplicated = True
+                    print('Data dari Node {} sudah terdaftar'.format(node_dest-1))
+                z += 1
+
+        ''' save to database '''
+
+        if is_duplicated == False :
+            i=1
+            while i < 5 :
+                with open('database/database_node{}.csv'.format(i), 'a', newline='') as csvfile:
+                    write_csv = csv.writer(csvfile, delimiter = ',')
+                    write_csv.writerow(['id: Database{}'.format(node_dest-1),
+                                        'Signature: asdqwezxc',
+                                        'Ahok: {}'.format(ahok_count),
+                                        'Anies: {}'.format(anies_count)])
+                i+=1
 
         ''' counting data '''
 
@@ -570,9 +614,10 @@ class Pemilu:
             db.delete("0", END)
             db.insert(END, total_anies)
 
-        ''' populate database '''
+        ''' populate to database UI '''
 
-        voting_data = list(self.read_database())
+        voting_data = list(self.read_database()) #read across all database
+        # print(voting_data)
         dbf_lists = [self.node_1_db, self.node_2_db, self.node_3_db, self.node_4_db]
         for dbf in dbf_lists:
             dbf.delete("1.0", END)
@@ -580,7 +625,7 @@ class Pemilu:
         i = 0
         while i < len(voting_data[0]):
             db_instance_data = voting_data[0][i]
-            print(db_instance_data)
+            # print(db_instance_data)
             x=0
             while x < len(db_instance_data) :
                 if x != 0 :
@@ -596,7 +641,6 @@ class Pemilu:
                         dbf.see(END)
                 x += 1
             i += 1
-
 
     def generate_data(self):
 
@@ -622,38 +666,142 @@ class Pemilu:
 
         return data_shell
 
-    # def choose_option(self, candidate):
-    #     time = datetime.datetime.now().replace(microsecond=0)
-    #
-    #     with open('data.csv') as csvfile:
-    #         read_data = csv.reader(csvfile, delimiter=',')
-    #         last_index = len(list(read_data))
-    #
-    #     with open('data.csv', 'a', newline='') as csvfile:
-    #         write_csv = csv.writer(csvfile, delimiter = ',')
-    #         if candidate == 'Ahok':
-    #             write_csv.writerow(['Voter {}'.format(last_index), 'Ahok', time])
-    #             self.tree.insert("", 0, text='Voter {}'.format(last_index+1), values=("Ahok", time))
-    #         if candidate == 'Anies':
-    #             write_csv.writerow(['Voter {}'.format(last_index), 'Anies', time])
-    #             self.tree.insert("", 0, text='Voter {}'.format(last_index+1), values=("Anies", time))
-    #
-    #     with open("data.csv") as file:
-    #         data_pointer = csv.reader(file, delimiter=",")
-    #         list_data = list(data_pointer)
-    #
-    #     count_vote = []
-    #     for index, data in enumerate(list_data):
-    #         if data != []:
-    #             count_vote.append(data[1])
-    #
-    #     cf_ahok = Counter(count_vote).get('Ahok')
-    #     cf_anies = Counter(count_vote).get('Anies')
-    #
-    #     if candidate == 'Ahok':
-    #         self.cf_ahok_view.configure(text=cf_ahok)
-    #     if candidate == 'Anies':
-    #         self.cf_anies_view.configure(text=cf_anies)
+    def disable_node(self, node):
+
+        if node == 1:
+            ahok_count = self.node_1_ahok_count
+            anies_count = self.node_1_anies_count
+            prev_hash = self.gen_value
+            hash_rslt = self.hash_value
+            key = self.node_1_key_value
+            send = self.send_meth
+            hash = self.hash_meth
+            dsb_button = self.disb_node
+
+        if node == 2:
+            ahok_count = self.node_2_ahok_count
+            anies_count = self.node_2_anies_count
+            prev_hash = self.prev_value_2
+            hash_rslt = self.hash_value_2
+            key = self.node_2_key_value
+            send = self.send_meth_2
+            hash = self.hash_meth_2
+            dsb_button = self.disb_node_2
+
+        if node == 3:
+            ahok_count = self.node_3_ahok_count
+            anies_count = self.node_3_anies_count
+            prev_hash = self.prev_value_3
+            hash_rslt = self.hash_value_3
+            key = self.node_3_key_value
+            send = self.send_meth_3
+            hash = self.hash_meth_3
+            dsb_button = self.disb_node_3
+
+        if node == 4:
+            ahok_count = self.node_4_ahok_count
+            anies_count = self.node_4_anies_count
+            prev_hash = self.prev_value_4
+            hash_rslt = self.hash_value_4
+            key = self.node_4_key_value
+            send = self.send_meth_4
+            hash = self.hash_meth_4
+            dsb_button = self.disb_node_4
+
+
+        print("init state :{}".format(send['state']))
+        form_elements = [ahok_count, anies_count, prev_hash, hash_rslt, key]
+        button_elements = [send, hash]
+
+        if send['state'] == "normal" :
+            for element in form_elements:
+                element.configure(state=DISABLED, bg="#F0F0F0")
+            for element in button_elements:
+                element.configure(state=DISABLED)
+
+            dsb_button.configure(text='Enable', bg='green')
+            # print("become disable")
+            return
+
+        if send['state'] == "disabled" :
+            for element in form_elements:
+                element.configure(state=NORMAL, bg="#FFFFFF")
+            for element in button_elements:
+                element.configure(state=NORMAL)
+            dsb_button.configure(text='Disable', bg='#91181e')
+            return
+
+    def countdown(self, remaining = None):
+
+        nodes_state = [self.send_meth['state'],
+                      self.send_meth_2['state'],
+                      self.send_meth_3['state'],
+                      self.send_meth_4['state']]
+
+        for node, state in enumerate(nodes_state):
+            if state == 'disabled' :
+                print(node)
+
+
+
+
+        # node1_state = self.send_meth['state']
+        # node2_state = self.send_meth_2['state']
+        # node3_state = self.send_meth_3['state']
+        # node4_state = self.send_meth_4['state']
+
+        if remaining is not None:
+            self.remaining = remaining
+
+        if self.remaining <= 0:
+            self.count_label.configure(text="time's up!")
+        else:
+            self.count_label.configure(text="%d" % self.remaining)
+            self.remaining = self.remaining - 1
+            if self.remaining % 2 == 0 :
+                self.node_1_key_value.delete('1.0', END)
+                self.node_1_key_value.insert(END, randint(1,1000))
+            self.root.after(1000, self.countdown)
+
+
+    def clear_db(self):
+
+        list_db = ["database/database_node1.csv",
+                   "database/database_node2.csv",
+                   "database/database_node3.csv",
+                   "database/database_node4.csv"]
+
+        for db in list_db:
+            open(db, 'w').close()
+
+        dbf_lists = [self.node_1_db, self.node_2_db, self.node_3_db, self.node_4_db]
+        for dbf in dbf_lists:
+            dbf.delete("1.0", END)
+
+    def verification(self, key):
+        input_certificate = key
+        verif_labels = [self.verif_label_1, self.verif_label_2, self.verif_label_3, self.verif_label_4]
+        security_valid = False
+        certificates = ['private_1.pem', 'private_2.pem', 'private_3.pem', 'private_4.pem']
+        for certificate in certificates:
+            with open('certificate/{}'.format(certificate)) as file :
+                db_certificate = file.read()
+                if input_certificate == db_certificate:
+                    security_valid = True
+                    print('cocok')
+                    print(certificate)
+                    print(db_certificate)
+
+                    for label in verif_labels:
+                        label.configure(text='Verification success', fg='white', bg='green')
+
+        if security_valid == False:
+            print('Unknown Key')
+            for label in verif_labels:
+                label.configure(text='Unknown key', fg='white', bg='Red')
+
+
+
 
 root = Tk()
 root.geometry("1372x800")
