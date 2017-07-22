@@ -426,12 +426,13 @@ class Pemilu:
 
         ''' counter view '''
 
-        self.count_label = Label(text="-", font=("Helvetica", 35))
-        self.count_label.place(x=1240, y=540 + 100)
+        self.count_label = Label(text="-", font=("Helvetica", 30))
+        self.count_label.place(x=1040, y=540 + 100)
         self.remaining = 0
+        self.iter = 0
 
         Button(text='Generate Data', width=15, height=2, bg='#f8c659', command=self.generate_data).place(x=node_1_margin_x, y=node_5_level+100)
-        Button(text='Sync Data', width=15, height=2, bg='#f8c659', command= lambda: self.countdown(10)).place(x=node_1_margin_x, y=node_5_level + 140)
+        Button(text='Sync Data', width=15, height=2, bg='#f8c659', command= lambda: self.countdown(3)).place(x=node_1_margin_x, y=node_5_level + 140)
         Button(text='Clear DB', width=15, height=2, bg='#f8c659', command= self.clear_db).place(x=node_1_margin_x, y=node_5_level + 180)
 
     def get_hash(self, node):
@@ -565,54 +566,7 @@ class Pemilu:
 
         ''' counting data '''
 
-        try:
-            node_1_count_ahok = int(self.node_1_db_ahok_1.get())
-            node_1_count_anies = int(self.node_1_db_anies_1.get())
-        except ValueError:
-            node_1_count_ahok = 0
-            node_1_count_anies = 0
-
-        try:
-            node_2_count_ahok = int(self.node_1_db_ahok_2.get())
-            node_2_count_anies = int(self.node_1_db_anies_2.get())
-        except ValueError:
-            node_2_count_ahok = 0
-            node_2_count_anies = 0
-
-        try:
-            node_3_count_ahok = int(self.node_1_db_ahok_3.get())
-            node_3_count_anies = int(self.node_1_db_anies_3.get())
-        except ValueError:
-            node_3_count_ahok = 0
-            node_3_count_anies = 0
-
-        try:
-            node_4_count_ahok = int(self.node_1_db_ahok_4.get())
-            node_4_count_anies = int(self.node_1_db_anies_4.get())
-        except ValueError:
-            node_4_count_ahok = 0
-            node_4_count_anies = 0
-
-        total_ahok = node_1_count_ahok + node_2_count_ahok + node_3_count_ahok + node_4_count_ahok
-        total_anies = node_1_count_anies + node_2_count_anies + node_3_count_anies + node_4_count_anies
-
-        total_ahok_frame = [self.node_1_db_ahok_total,
-                            self.node_2_db_ahok_total,
-                            self.node_3_db_ahok_total,
-                            self.node_4_db_ahok_total]
-
-        total_anies_frame = [self.node_1_db_anies_total,
-                            self.node_2_db_anies_total,
-                            self.node_3_db_anies_total,
-                            self.node_4_db_anies_total]
-
-        for db in total_ahok_frame:
-            db.delete("0", END)
-            db.insert(END, total_ahok)
-
-        for db in total_anies_frame:
-            db.delete("0", END)
-            db.insert(END, total_anies)
+        self.counting_data()
 
         ''' populate to database UI '''
 
@@ -651,6 +605,60 @@ class Pemilu:
             for candidate in candidates :
                 candidate.delete("0", END)
                 candidate.insert(END, randint(1,5))
+
+    def counting_data(self):
+        ''' counting data '''
+
+        try:
+            node_1_count_ahok = int(self.node_1_db_ahok_1.get())
+            node_1_count_anies = int(self.node_1_db_anies_1.get())
+        except ValueError:
+            node_1_count_ahok = 0
+            node_1_count_anies = 0
+
+        try:
+            node_2_count_ahok = int(self.node_1_db_ahok_2.get())
+            node_2_count_anies = int(self.node_1_db_anies_2.get())
+        except ValueError:
+            node_2_count_ahok = 0
+            node_2_count_anies = 0
+
+        try:
+            node_3_count_ahok = int(self.node_1_db_ahok_3.get())
+            node_3_count_anies = int(self.node_1_db_anies_3.get())
+        except ValueError:
+            node_3_count_ahok = 0
+            node_3_count_anies = 0
+
+        try:
+            node_4_count_ahok = int(self.node_1_db_ahok_4.get())
+            node_4_count_anies = int(self.node_1_db_anies_4.get())
+        except ValueError:
+            node_4_count_ahok = 0
+            node_4_count_anies = 0
+
+        total_ahok = node_1_count_ahok + node_2_count_ahok + node_3_count_ahok + node_4_count_ahok
+        total_anies = node_1_count_anies + node_2_count_anies + node_3_count_anies + node_4_count_anies
+
+        total_ahok_frame = [self.node_1_db_ahok_total,
+                            self.node_2_db_ahok_total,
+                            self.node_3_db_ahok_total,
+                            self.node_4_db_ahok_total]
+
+        total_anies_frame = [self.node_1_db_anies_total,
+                             self.node_2_db_anies_total,
+                             self.node_3_db_anies_total,
+                             self.node_4_db_anies_total]
+
+        # totals_frame = [total_ahok_frame, total_anies_frame]
+
+        for db in total_ahok_frame:
+            db.delete("0", END)
+            db.insert(END, total_ahok)
+
+        for db in total_anies_frame:
+            db.delete("0", END)
+            db.insert(END, total_anies)
 
     def read_database(self):
         list_database = ["database/database_node1.csv",
@@ -731,38 +739,78 @@ class Pemilu:
             dsb_button.configure(text='Disable', bg='#91181e')
             return
 
-    def countdown(self, remaining = None):
+    def countdown(self, remaining = None, iter=None):
+
 
         nodes_state = [self.send_meth['state'],
                       self.send_meth_2['state'],
                       self.send_meth_3['state'],
                       self.send_meth_4['state']]
 
-        for node, state in enumerate(nodes_state):
+        for node, state in enumerate(nodes_state, 1):
             if state == 'disabled' :
                 print(node)
 
+        db_ahok_1 = [self.node_1_db_ahok_1, self.node_2_db_ahok_1, self.node_3_db_ahok_1, self.node_4_db_ahok_1]
+        db_ahok_2 = [self.node_1_db_ahok_2, self.node_2_db_ahok_2, self.node_3_db_ahok_2, self.node_4_db_ahok_2]
+        db_ahok_3 = [self.node_1_db_ahok_3, self.node_2_db_ahok_3, self.node_3_db_ahok_3, self.node_4_db_ahok_3]
+        db_ahok_4 = [self.node_1_db_ahok_4, self.node_2_db_ahok_4, self.node_3_db_ahok_4, self.node_4_db_ahok_4]
 
+        db_anies_1 = [self.node_1_db_anies_1, self.node_2_db_anies_1, self.node_3_db_anies_1, self.node_4_db_anies_1]
+        db_anies_2 = [self.node_1_db_anies_2, self.node_2_db_anies_2, self.node_3_db_anies_2, self.node_4_db_anies_2]
+        db_anies_3 = [self.node_1_db_anies_3, self.node_2_db_anies_3, self.node_3_db_anies_3, self.node_4_db_anies_3]
+        db_anies_4 = [self.node_1_db_anies_4, self.node_2_db_anies_4, self.node_3_db_anies_4, self.node_4_db_anies_4]
 
+        source_data_ahok = [self.node_1_ahok_count.get(), self.node_2_ahok_count.get(), self.node_3_ahok_count.get(), self.node_4_ahok_count.get()]
+        source_data_anies = [self.node_1_anies_count.get(), self.node_2_anies_count.get(), self.node_3_anies_count.get(), self.node_4_anies_count.get()]
 
-        # node1_state = self.send_meth['state']
-        # node2_state = self.send_meth_2['state']
-        # node3_state = self.send_meth_3['state']
-        # node4_state = self.send_meth_4['state']
+        list_db_ahok = [db_ahok_1, db_ahok_2, db_ahok_3, db_ahok_4]
+        list_db_anies = [db_anies_1, db_anies_2, db_anies_3, db_anies_4]
 
         if remaining is not None:
             self.remaining = remaining
 
+        if iter is not None:
+            self.iter = iter
+
+
         if self.remaining <= 0:
-            self.count_label.configure(text="time's up!")
+            self.count_label.configure(text="Broadcast node")
+
+            if nodes_state[self.iter] == 'disabled':
+                for db in list_db_ahok[self.iter]:
+                    db.delete('0', END)
+                    db.configure(bg='red', fg='white')
+
+                for db in list_db_anies[self.iter]:
+                    db.delete('0', END)
+                    db.configure(bg='red', fg='white')
+            else:
+                for db in list_db_ahok[self.iter] :
+                    db.delete('0',END)
+                    db.insert(END, source_data_ahok[self.iter])
+                    db.configure(bg='green', fg='white')
+
+                for db in list_db_anies[self.iter] :
+                    db.delete('0',END)
+                    db.insert(END, source_data_anies[self.iter])
+                    db.configure(bg='green', fg='white')
+
+                self.counting_data()
+
+            self.remaining = 3
+            y=self.iter+1
+            if self.iter == 3:
+                self.count_label.configure(text="broadcast done")
+                return
+
+            self.root.after(1000, lambda: self.countdown(remaining=self.remaining, iter=y))
+
         else:
             self.count_label.configure(text="%d" % self.remaining)
             self.remaining = self.remaining - 1
-            if self.remaining % 2 == 0 :
-                self.node_1_key_value.delete('1.0', END)
-                self.node_1_key_value.insert(END, randint(1,1000))
             self.root.after(1000, self.countdown)
-
+            print(self.iter)
 
     def clear_db(self):
 
@@ -777,6 +825,35 @@ class Pemilu:
         dbf_lists = [self.node_1_db, self.node_2_db, self.node_3_db, self.node_4_db]
         for dbf in dbf_lists:
             dbf.delete("1.0", END)
+
+        count_frames = [self.node_1_anies_count, self.node_2_anies_count, self.node_3_anies_count, self.node_4_anies_count,
+                       self.node_1_ahok_count, self.node_2_ahok_count, self.node_3_ahok_count, self.node_4_ahok_count]
+
+
+        for frame in count_frames:
+            frame.delete('0',END)
+
+
+        hash_frame = [self.hash_value, self.hash_value_2, self.hash_value_3, self.hash_value_4,
+                      self.prev_value_2, self.prev_value_3, self.prev_value_4]
+
+        for frame in hash_frame:
+            frame.delete('1.0',END)
+
+        db_frames = [self.node_1_db_ahok_1, self.node_1_db_ahok_2, self.node_1_db_ahok_3, self.node_1_db_ahok_4,
+                    self.node_2_db_ahok_1, self.node_2_db_ahok_2, self.node_2_db_ahok_3, self.node_2_db_ahok_4,
+                    self.node_3_db_ahok_1, self.node_3_db_ahok_2, self.node_3_db_ahok_3, self.node_3_db_ahok_4,
+                    self.node_4_db_ahok_1, self.node_4_db_ahok_2, self.node_4_db_ahok_3, self.node_4_db_ahok_4]
+
+        for db in db_frames:
+            db.delete('0', END)
+        # key_frame = [self.node_1_key_value, self.node_2_key_value, self.node_3_key_value, self.node_4_key_value]
+
+
+
+
+
+
 
     def verification(self, key):
         input_certificate = key
