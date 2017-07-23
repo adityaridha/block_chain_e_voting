@@ -26,22 +26,22 @@ from ecdsa import SigningKey, VerifyingKey
 # print(vk.to_pem())
 
 ''' generate pair key to doc '''
-sk = SigningKey.generate(curve=ecdsa.SECP256k1)
-vk = sk.get_verifying_key()
-open("private_4.pem","wb").write(sk.to_pem())
-open("public_4.pem","wb").write(vk.to_pem())
+# sk = SigningKey.generate(curve=ecdsa.SECP256k1)
+# vk = sk.get_verifying_key()
+# open("private_4.pem","wb").write(sk.to_pem())
+# open("public_4.pem","wb").write(vk.to_pem())
 
 ''' sign and verify '''
-# sk = SigningKey.from_pem(open("private_1.pem").read())
-# message = open("message.txt","rb").read()
-# sig = sk.sign(message)
-# open("signature.txt","wb").write(sig)
-#
-# vk = VerifyingKey.from_pem(open("public_1.pem").read())
-# message = open("message.txt","rb").read()
-# sig = open("signature.txt","rb").read()
-# try:
-#     vk.verify(sig, message)
-#     print ("good signature")
-# except BadSignatureError:
-#     print ("BAD SIGNATURE")
+sk = SigningKey.from_pem(open("certificate\private_1.pem").read())
+message = open("certificate\message.txt","rb").read()
+sig = sk.sign(message)
+open("certificate\signature.txt","wb").write(sig)
+
+vk = VerifyingKey.from_pem(open("certificate\public_1.pem").read())
+message = open("certificate\message.txt","rb").read()
+sig = open("certificate\signature.txt","rb").read()
+try:
+    vk.verify(sig, message)
+    print ("good signature")
+except BadSignatureError:
+    print ("BAD SIGNATURE")

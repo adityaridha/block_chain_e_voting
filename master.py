@@ -1,6 +1,8 @@
 import csv
 import hashlib
-import datetime
+import os
+import binascii
+from datetime import datetime
 import time
 import ecdsa
 from tkinter import *
@@ -14,6 +16,7 @@ from ecdsa import SigningKey, VerifyingKey
 class Pemilu:
 
     def __init__(self, master):
+
 
         self.root = master
         self.myvar = ''
@@ -49,7 +52,7 @@ class Pemilu:
         self.node_1_anies_count.place(x=node_1_margin_x+60, y=76)
 
         self.gen_label = Label(text="Genesis")
-        self.gen_value = Text(self.main_frame, width=30, height=3)
+        self.gen_value = Text(self.main_frame, width=30, height=3, bg='#F0F0F0')
         self.gen_value.grid_propagate(False)
         self.gen_label.place(x=node_1_margin_x+10,  y=102)
         self.gen_value.place(x=node_1_margin_x+60,  y=102)
@@ -222,6 +225,12 @@ class Pemilu:
         Label(text="Signature check : ").place(x=node_1_margin_x, y=header_height)
         self.verif_label_1 = Label(text="-")
         self.verif_label_1.place(x=100 + node_1_margin_x, y=header_height)
+
+        Label(text="DB size : ").place(x=node_1_margin_x, y=header_height+190)
+        self.db_size = Label(text="-")
+        self.db_size.place(x=50 + node_1_margin_x, y=header_height+190)
+        Label(text="bytes").place(x=node_1_margin_x+ 75, y=header_height + 190)
+
 
         node_1_y_level = 430
         node_1_x_level_one = 240
@@ -430,10 +439,14 @@ class Pemilu:
         self.count_label.place(x=1040, y=540 + 100)
         self.remaining = 0
         self.iter = 0
+        self.node_down = []
 
         Button(text='Generate Data', width=15, height=2, bg='#f8c659', command=self.generate_data).place(x=node_1_margin_x, y=node_5_level+100)
         Button(text='Sync Data', width=15, height=2, bg='#f8c659', command= lambda: self.countdown(3)).place(x=node_1_margin_x, y=node_5_level + 140)
         Button(text='Clear DB', width=15, height=2, bg='#f8c659', command= self.clear_db).place(x=node_1_margin_x, y=node_5_level + 180)
+
+        ''' clear DB '''
+        self.clear_db()
 
     def get_hash(self, node):
         if node == 1:
@@ -477,9 +490,9 @@ class Pemilu:
 
         if node_dest == 2:
             source_hash = self.hash_value
-            prev_hash_value = self.prev_value_2
-            ahok_count = self.node_1_ahok_count.get()
-            anies_count = self.node_1_anies_count.get()
+            prev_hash_value = self.gen_value
+            ahok_count = self.node_1_ahok_count
+            anies_count = self.node_1_anies_count
             key = self.node_1_key_value.get('1.0', 'end-1c')
 
             list_db_ahok = [self.node_1_db_ahok_1, self.node_2_db_ahok_1, self.node_3_db_ahok_1, self.node_4_db_ahok_1]
@@ -487,9 +500,9 @@ class Pemilu:
 
         if node_dest == 3:
             source_hash = self.hash_value_2
-            prev_hash_value = self.prev_value_3
-            ahok_count = self.node_2_ahok_count.get()
-            anies_count = self.node_2_anies_count.get()
+            prev_hash_value = self.prev_value_2
+            ahok_count = self.node_2_ahok_count
+            anies_count = self.node_2_anies_count
             key = self.node_2_key_value.get('1.0', 'end-1c')
 
             list_db_ahok = [self.node_1_db_ahok_2, self.node_2_db_ahok_2, self.node_3_db_ahok_2, self.node_4_db_ahok_2]
@@ -497,39 +510,51 @@ class Pemilu:
 
         if node_dest == 4:
             source_hash = self.hash_value_3
-            prev_hash_value = self.prev_value_4
-            ahok_count = self.node_3_ahok_count.get()
-            anies_count = self.node_3_anies_count.get()
+            prev_hash_value = self.prev_value_3
+            ahok_count = self.node_3_ahok_count
+            anies_count = self.node_3_anies_count
             key = self.node_3_key_value.get('1.0', 'end-1c')
 
             list_db_ahok = [self.node_1_db_ahok_3, self.node_2_db_ahok_3, self.node_3_db_ahok_3, self.node_4_db_ahok_3]
             list_db_anies = [self.node_1_db_anies_3, self.node_2_db_anies_3, self.node_3_db_anies_3, self.node_4_db_anies_3]
 
         if node_dest == 5:
-            ahok_count = self.node_4_ahok_count.get()
-            anies_count = self.node_4_anies_count.get()
+            ahok_count = self.node_4_ahok_count
+            anies_count = self.node_4_anies_count
             key = self.node_4_key_value.get('1.0', 'end-1c')
+            source_hash = self.hash_value_4
+            prev_hash_value = self.prev_value_4
 
             list_db_ahok = [self.node_1_db_ahok_4, self.node_2_db_ahok_4, self.node_3_db_ahok_4, self.node_4_db_ahok_4]
             list_db_anies = [self.node_1_db_anies_4, self.node_2_db_anies_4, self.node_3_db_anies_4, self.node_4_db_anies_4]
+
+        ''' lock data '''
+
+        elements = [source_hash, prev_hash_value, ahok_count,anies_count]
+        for element in elements:
+            element.configure(state=DISABLED, bg='#F0F0F0')
 
         ''' broadcast data prev Hash '''
 
         list_node = [2, 3, 4]
         if node_dest in list_node :
-            hash_value = source_hash.get(1.0, END)
-            prev_hash_value.delete("1.0", END)
-            prev_hash_value.insert(END, hash_value)
+            prev_hash_frames = [self.prev_value_2, self.prev_value_3, self.prev_value_4]
+            for frame in prev_hash_frames:
+                hash_value = source_hash.get(1.0, END)
+                frame.delete("1.0", END)
+                frame.insert(END, hash_value)
+
+
 
         ''' populate data to database UI '''
 
         for db in list_db_ahok:
             db.delete("0", END)
-            db.insert(END, ahok_count)
+            db.insert(END, ahok_count.get())
 
         for db in list_db_anies:
             db.delete("0", END)
-            db.insert(END, anies_count)
+            db.insert(END, anies_count.get())
 
         ''' security verification '''
 
@@ -551,6 +576,17 @@ class Pemilu:
                     print('Data dari Node {} sudah terdaftar'.format(node_dest-1))
                 z += 1
 
+        ''' create signature '''
+        data_hash = source_hash.get('1.0',END)
+        print(type(data_hash))
+        data_hash_uni = data_hash.encode('utf-8')
+        print(type(data_hash_uni))
+        sk = SigningKey.from_pem(open('certificate/private_{}.pem'.format(node_dest-1)).read())
+        sig = sk.sign(data_hash_uni)  ### result with /x /x
+        sig = binascii.hexlify(sig)   ### hex readeble
+
+
+
         ''' save to database '''
 
         if is_duplicated == False :
@@ -558,10 +594,12 @@ class Pemilu:
             while i < 5 :
                 with open('database/database_node{}.csv'.format(i), 'a', newline='') as csvfile:
                     write_csv = csv.writer(csvfile, delimiter = ',')
-                    write_csv.writerow(['id: Database{}'.format(node_dest-1),
-                                        'Signature: asdqwezxc',
-                                        'Ahok: {}'.format(ahok_count),
-                                        'Anies: {}'.format(anies_count)])
+                    write_csv.writerow(['sourceId: Node {}'.format(node_dest-1),
+                                        'nextNode: Node {}'.format(node_dest),
+                                        'signature: {}'.format(sig),
+                                        'ahok: {}'.format(ahok_count.get()),
+                                        'anies: {}'.format(anies_count.get()),
+                                        'timestamp: {}'.format(datetime.now())])
                 i+=1
 
         ''' counting data '''
@@ -588,13 +626,17 @@ class Pemilu:
                 for dbf in dbf_lists:
                     dbf.insert(END, db_instance_data[x])
 
-                if x == 4 :
+                if x == 5 :                      ### WARNING ! if data that stored in database change it should be change
                     for dbf in dbf_lists:
                         dbf.insert(END, '\n')
                         dbf.insert(END, "################################")
                         dbf.see(END)
                 x += 1
             i += 1
+
+        ''' check db size '''
+
+        self.check_db_size()
 
     def generate_data(self):
 
@@ -604,7 +646,7 @@ class Pemilu:
         for candidates in zip(frame_list_ahok, frame_list_anies) :
             for candidate in candidates :
                 candidate.delete("0", END)
-                candidate.insert(END, randint(1,5))
+                candidate.insert(END, randint(20,200))
 
     def counting_data(self):
         ''' counting data '''
@@ -742,14 +784,16 @@ class Pemilu:
     def countdown(self, remaining = None, iter=None):
 
 
+
+
         nodes_state = [self.send_meth['state'],
                       self.send_meth_2['state'],
                       self.send_meth_3['state'],
                       self.send_meth_4['state']]
 
-        for node, state in enumerate(nodes_state, 1):
-            if state == 'disabled' :
-                print(node)
+        # for node, state in enumerate(nodes_state, 1):
+        #     if state == 'disabled' :
+        #         # print(node)
 
         db_ahok_1 = [self.node_1_db_ahok_1, self.node_2_db_ahok_1, self.node_3_db_ahok_1, self.node_4_db_ahok_1]
         db_ahok_2 = [self.node_1_db_ahok_2, self.node_2_db_ahok_2, self.node_3_db_ahok_2, self.node_4_db_ahok_2]
@@ -774,17 +818,22 @@ class Pemilu:
             self.iter = iter
 
 
+
+
         if self.remaining <= 0:
             self.count_label.configure(text="Broadcast node")
 
             if nodes_state[self.iter] == 'disabled':
                 for db in list_db_ahok[self.iter]:
                     db.delete('0', END)
-                    db.configure(bg='red', fg='white')
+                    db.configure(bg='red')
 
                 for db in list_db_anies[self.iter]:
                     db.delete('0', END)
-                    db.configure(bg='red', fg='white')
+                    db.configure(bg='red')
+
+                self.node_down.append(self.iter+1)
+
             else:
                 for db in list_db_ahok[self.iter] :
                     db.delete('0',END)
@@ -810,10 +859,16 @@ class Pemilu:
             self.count_label.configure(text="%d" % self.remaining)
             self.remaining = self.remaining - 1
             self.root.after(1000, self.countdown)
-            print(self.iter)
+            # print(self.iter)
+
+
+        print(self.node_down)
 
     def clear_db(self):
 
+        self.check_db_size()
+
+        ''' clean db file '''
         list_db = ["database/database_node1.csv",
                    "database/database_node2.csv",
                    "database/database_node3.csv",
@@ -822,38 +877,50 @@ class Pemilu:
         for db in list_db:
             open(db, 'w').close()
 
+        ''' clean db raw view '''
         dbf_lists = [self.node_1_db, self.node_2_db, self.node_3_db, self.node_4_db]
         for dbf in dbf_lists:
             dbf.delete("1.0", END)
 
+        ''' clear node count'''
         count_frames = [self.node_1_anies_count, self.node_2_anies_count, self.node_3_anies_count, self.node_4_anies_count,
                        self.node_1_ahok_count, self.node_2_ahok_count, self.node_3_ahok_count, self.node_4_ahok_count]
-
-
         for frame in count_frames:
+            frame.configure(state=NORMAL, bg='#FFFFFF')
             frame.delete('0',END)
 
-
+        ''' clear hash'''
         hash_frame = [self.hash_value, self.hash_value_2, self.hash_value_3, self.hash_value_4,
                       self.prev_value_2, self.prev_value_3, self.prev_value_4]
-
         for frame in hash_frame:
+            frame.configure(state=NORMAL, bg='#FFFFFF')
             frame.delete('1.0',END)
 
         db_frames = [self.node_1_db_ahok_1, self.node_1_db_ahok_2, self.node_1_db_ahok_3, self.node_1_db_ahok_4,
-                    self.node_2_db_ahok_1, self.node_2_db_ahok_2, self.node_2_db_ahok_3, self.node_2_db_ahok_4,
-                    self.node_3_db_ahok_1, self.node_3_db_ahok_2, self.node_3_db_ahok_3, self.node_3_db_ahok_4,
-                    self.node_4_db_ahok_1, self.node_4_db_ahok_2, self.node_4_db_ahok_3, self.node_4_db_ahok_4]
+                     self.node_2_db_ahok_1, self.node_2_db_ahok_2, self.node_2_db_ahok_3, self.node_2_db_ahok_4,
+                     self.node_3_db_ahok_1, self.node_3_db_ahok_2, self.node_3_db_ahok_3, self.node_3_db_ahok_4,
+                     self.node_4_db_ahok_1, self.node_4_db_ahok_2, self.node_4_db_ahok_3, self.node_4_db_ahok_4,
+                     self.node_1_db_ahok_total, self.node_2_db_ahok_total, self.node_3_db_ahok_total,
+                     self.node_4_db_ahok_total]
+
 
         for db in db_frames:
             db.delete('0', END)
+
+        db_frames = [self.node_1_db_anies_1, self.node_1_db_anies_2, self.node_1_db_anies_3, self.node_1_db_anies_4,
+                     self.node_2_db_anies_1, self.node_2_db_anies_2, self.node_2_db_anies_3, self.node_2_db_anies_4,
+                     self.node_3_db_anies_1, self.node_3_db_anies_2, self.node_3_db_anies_3, self.node_3_db_anies_4,
+                     self.node_4_db_anies_1, self.node_4_db_anies_2, self.node_4_db_anies_3, self.node_4_db_anies_4,
+                     self.node_1_db_anies_total, self.node_2_db_anies_total, self.node_3_db_anies_total,
+                     self.node_4_db_anies_total]
+
+        for db in db_frames:
+            db.delete('0', END)
+
+
         # key_frame = [self.node_1_key_value, self.node_2_key_value, self.node_3_key_value, self.node_4_key_value]
 
-
-
-
-
-
+        self.check_db_size()
 
     def verification(self, key):
         input_certificate = key
@@ -877,8 +944,9 @@ class Pemilu:
             for label in verif_labels:
                 label.configure(text='Unknown key', fg='white', bg='Red')
 
-
-
+    def check_db_size(self):
+        dbs = os.path.getsize('database/database_node1.csv')
+        self.db_size.configure(text=dbs)
 
 root = Tk()
 root.geometry("1372x800")
