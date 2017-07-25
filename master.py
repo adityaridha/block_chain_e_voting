@@ -39,14 +39,14 @@ class Pemilu:
         labelframe = LabelFrame(self.main_frame, text="NODE #1", width=330, height=height_frame)
         labelframe.place(x=node_1_margin_x, y=20)
 
-        self.ahok_label = Label(text="Ahok")
-        self.ahok_label.place(x=node_1_margin_x+20, y=50)
+        self.ahok_label = Label(text="Cand #1")
+        self.ahok_label.place(x=node_1_margin_x+5, y=50)
 
         self.node_1_ahok_count = Entry(self.main_frame, width=40)
         self.node_1_ahok_count.place(x=node_1_margin_x+60, y=50)
 
-        self.anies_label = Label(text="Anies")
-        self.anies_label.place(x=node_1_margin_x+20, y=76)
+        self.anies_label = Label(text="Cand #2")
+        self.anies_label.place(x=node_1_margin_x+5, y=76)
 
         self.node_1_anies_count = Entry(self.main_frame, width=40)
         self.node_1_anies_count.place(x=node_1_margin_x+60, y=76)
@@ -57,7 +57,7 @@ class Pemilu:
         self.gen_label.place(x=node_1_margin_x+10,  y=102)
         self.gen_value.place(x=node_1_margin_x+60,  y=102)
 
-        self.gen_value.insert(END, "this is Genesis")
+        self.gen_value.insert(END, "this is Genesis ")
         self.gen_value.configure(state=DISABLED)
 
         height_hash = 162
@@ -89,14 +89,14 @@ class Pemilu:
         labelframe = LabelFrame(self.main_frame, text="NODE #2", width=330, height=height_frame)
         labelframe.place(x=node_2_margin_x, y=20)
 
-        self.ahok_label_2 = Label(text="Ahok")
-        self.ahok_label_2.place(x=60+margin_2, y=50)
+        self.ahok_label_2 = Label(text="Cand #1")
+        self.ahok_label_2.place(x=45+margin_2, y=50)
 
         self.node_2_ahok_count = Entry(self.main_frame, width=40)
         self.node_2_ahok_count.place(x=100+margin_2, y=50)
 
-        self.anies_label_2 = Label(text="Anies")
-        self.anies_label_2.place(x=60+margin_2, y=76)
+        self.anies_label_2 = Label(text="Cand #2")
+        self.anies_label_2.place(x=45+margin_2, y=76)
 
         self.node_2_anies_count = Entry(self.main_frame, width=40)
         self.node_2_anies_count.place(x=100+margin_2, y=76)
@@ -132,14 +132,14 @@ class Pemilu:
         labelframe = LabelFrame(self.main_frame, text="NODE #3", width=330, height=height_frame)
         labelframe.place(x=40 + margin_3, y=20)
 
-        self.ahok_label_3 = Label(text="Ahok")
-        self.ahok_label_3.place(x=60 + margin_3, y=50)
+        self.ahok_label_3 = Label(text="Cand #1")
+        self.ahok_label_3.place(x=45 + margin_3, y=50)
 
         self.node_3_ahok_count = Entry(self.main_frame, width=40)
         self.node_3_ahok_count.place(x=100 + margin_3, y=50)
 
-        self.anies_label_3 = Label(text="Anies")
-        self.anies_label_3.place(x=60 + margin_3, y=76)
+        self.anies_label_3 = Label(text="Cand #2")
+        self.anies_label_3.place(x=45 + margin_3, y=76)
 
         self.node_3_anies_count = Entry(self.main_frame, width=40)
         self.node_3_anies_count.place(x=100 + margin_3, y=76)
@@ -175,14 +175,14 @@ class Pemilu:
         labelframe = LabelFrame(self.main_frame, text="NODE #4", width=330, height=height_frame)
         labelframe.place(x=40 + margin_4, y=20)
 
-        self.ahok_label_4 = Label(text="Ahok")
-        self.ahok_label_4.place(x=60 + margin_4, y=50)
+        self.ahok_label_4 = Label(text="Cand #1")
+        self.ahok_label_4.place(x=45 + margin_4, y=50)
 
         self.node_4_ahok_count = Entry(self.main_frame, width=40)
         self.node_4_ahok_count.place(x=100 + margin_4, y=50)
 
-        self.anies_label_4 = Label(text="Anies")
-        self.anies_label_4.place(x=60 + margin_4, y=76)
+        self.anies_label_4 = Label(text="Cand #2")
+        self.anies_label_4.place(x=45 + margin_4, y=76)
 
         self.node_4_anies_count = Entry(self.main_frame, width=40)
         self.node_4_anies_count.place(x=100 + margin_4, y=76)
@@ -219,8 +219,8 @@ class Pemilu:
         header_height = 400
 
         Label(text="Database Node #1").place(x=node_1_margin_x, y=database_header_height)
-        Label(text="Ahok").place(x=240, y=header_height)
-        Label(text="Anies").place(x=290, y=header_height)
+        Label(text="Cand #1").place(x=237, y=header_height)
+        Label(text="Cand #2").place(x=290, y=header_height)
 
         Label(text="Signature check : ").place(x=node_1_margin_x, y=header_height)
         self.verif_label_1 = Label(text="-")
@@ -229,7 +229,7 @@ class Pemilu:
         Label(text="DB size : ").place(x=node_1_margin_x, y=header_height+190)
         self.db_size = Label(text="-")
         self.db_size.place(x=50 + node_1_margin_x, y=header_height+190)
-        Label(text="bytes").place(x=node_1_margin_x+ 75, y=header_height + 190)
+        Label(text="bytes").place(x=node_1_margin_x + 85, y=header_height + 190)
 
 
         node_1_y_level = 430
@@ -279,8 +279,8 @@ class Pemilu:
         add_margin = 340
 
         Label(text="Database Node #2").place(x=350, y=database_header_height)
-        Label(text="Ahok").place(x=240+add_margin, y=header_height)
-        Label(text="Anies").place(x=290+add_margin, y=header_height)
+        Label(text="Cand #1").place(x=235+add_margin, y=header_height)
+        Label(text="Cand #2").place(x=290+add_margin, y=header_height)
 
         Label(text="Signature check : ").place(x=350, y=header_height)
         self.verif_label_2 = Label(text="-")
@@ -332,8 +332,8 @@ class Pemilu:
         add_margin = 340+340
 
         Label(text="Database Node #3").place(x=10+add_margin, y=database_header_height)
-        Label(text="Ahok").place(x=240+add_margin, y=header_height)
-        Label(text="Anies").place(x=290+add_margin, y=header_height)
+        Label(text="Cand #1").place(x=235+add_margin, y=header_height)
+        Label(text="Cand #2").place(x=290+add_margin, y=header_height)
 
         Label(text="Signature check : ").place(x=10+add_margin, y=header_height)
         self.verif_label_3 = Label(text="-")
@@ -385,8 +385,8 @@ class Pemilu:
         add_margin = 340+340+340
 
         Label(text="Database Node #4").place(x=10+add_margin, y=database_header_height)
-        Label(text="Ahok").place(x=240+add_margin, y=header_height)
-        Label(text="Anies").place(x=290+add_margin, y=header_height)
+        Label(text="Cand #1").place(x=235+add_margin, y=header_height)
+        Label(text="Cand #2").place(x=290+add_margin, y=header_height)
 
         Label(text="Signature check : ").place(x=10+add_margin, y=header_height)
         self.verif_label_4 = Label(text="-")
@@ -528,6 +528,24 @@ class Pemilu:
             list_db_ahok = [self.node_1_db_ahok_4, self.node_2_db_ahok_4, self.node_3_db_ahok_4, self.node_4_db_ahok_4]
             list_db_anies = [self.node_1_db_anies_4, self.node_2_db_anies_4, self.node_3_db_anies_4, self.node_4_db_anies_4]
 
+        ''' security verification '''
+        self.verification(key, node_dest)
+
+        ''' precheck database '''
+        with open('database/database_node1.csv') as csvfile:
+            pointer_data = csv.reader(csvfile, delimiter=',')
+            data = list(pointer_data)
+
+        is_duplicated = False
+        z=0
+        if len(data) != 0 :
+            while z < len(data):
+                print(data[z][0])
+                if data[z][0] == 'id: Database{}'.format(node_dest-1):
+                    is_duplicated = True
+                    print('Data dari Node {} sudah terdaftar'.format(node_dest-1))
+                z += 1
+
         ''' lock data '''
         elements = [source_hash, prev_hash_value, ahok_count,anies_count]
         for element in elements:
@@ -551,24 +569,6 @@ class Pemilu:
             db.delete("0", END)
             db.insert(END, anies_count.get())
 
-        ''' security verification '''
-        self.verification(key)
-
-        ''' precheck database '''
-        with open('database/database_node1.csv') as csvfile:
-            pointer_data = csv.reader(csvfile, delimiter=',')
-            data = list(pointer_data)
-
-        is_duplicated = False
-        z=0
-        if len(data) != 0 :
-            while z < len(data):
-                print(data[z][0])
-                if data[z][0] == 'id: Database{}'.format(node_dest-1):
-                    is_duplicated = True
-                    print('Data dari Node {} sudah terdaftar'.format(node_dest-1))
-                z += 1
-
         ''' create signature '''
         data_hash = source_hash.get('1.0',END)
         data_hash_uni = data_hash.encode('utf-8')
@@ -584,9 +584,10 @@ class Pemilu:
                     write_csv = csv.writer(csvfile, delimiter = ',')
                     write_csv.writerow(['sourceId: Node {}'.format(node_dest-1),
                                         'nextNode: Node {}'.format(node_dest),
+                                        'previous hash: {}'.format(prev_hash_value.get('1.0','end-2c')),
                                         'signature: {}'.format(sig),
-                                        'ahok: {}'.format(ahok_count.get()),
-                                        'anies: {}'.format(anies_count.get()),
+                                        'candidate 1: {}'.format(ahok_count.get()),
+                                        'candidate 2: {}'.format(anies_count.get()),
                                         'timestamp: {}'.format(datetime.now())])
                 i+=1
 
@@ -696,7 +697,7 @@ class Pemilu:
                 for dbf in dbf_lists:
                     dbf.insert(END, db_instance_data[x])
 
-                if x == 5:  ### WARNING ! if data that stored in database change it should be change
+                if x == 6:  ### WARNING ! if data that stored in database change it should be change
                     for dbf in dbf_lists:
                         dbf.insert(END, '\n')
                         dbf.insert(END, "################################")
@@ -948,11 +949,29 @@ class Pemilu:
         self.check_db_size()
         self.iter = 0
 
-    def verification(self, key):
+    def verification(self, key, node):
+
         input_certificate = key
+        iter = node - 1
         verif_labels = [self.verif_label_1, self.verif_label_2, self.verif_label_3, self.verif_label_4]
         security_valid = False
         certificates = ['private_1.pem', 'private_2.pem', 'private_3.pem', 'private_4.pem']
+        list_prev = [self.gen_value, self.prev_value_2, self.prev_value_3, self.prev_value_4]
+        list_hash = [self.hash_value, self.hash_value_2, self.hash_value_3, self.hash_value_4]
+
+
+        if iter == 1:
+            print('always pass this is genesis')
+        else:
+            if list_prev[iter-1].get('1.0','end-1c') == list_hash[iter-2].get('1.0',END):
+                print('prev hash match')
+            else:
+                print('prev hash not match')
+                for label in verif_labels:
+                    label.configure(text='Prev hash not match', fg='white', bg='Red')
+                return False
+
+
         for certificate in certificates:
             with open('certificate/{}'.format(certificate)) as file :
                 db_certificate = file.read()
@@ -971,6 +990,7 @@ class Pemilu:
     def check_db_size(self):
         dbs = os.path.getsize('database/database_node1.csv')
         self.db_size.configure(text=dbs)
+
 
 root = Tk()
 root.geometry("1372x800")
