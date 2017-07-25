@@ -440,6 +440,8 @@ class Pemilu:
         self.remaining = 0
         self.iter = 0
         self.node_down = []
+        self.last_validated = ''
+        self.flag = None
 
         Button(text='Generate Data', width=15, height=2, bg='#f8c659', command=self.generate_data).place(x=node_1_margin_x, y=node_5_level+100)
         Button(text='Sync Data', width=15, height=2, bg='#f8c659', command= lambda: self.countdown(3)).place(x=node_1_margin_x, y=node_5_level + 140)
@@ -451,40 +453,32 @@ class Pemilu:
     def get_hash(self, node):
         if node == 1:
             val = self.node_1_ahok_count.get() + ',' + self.node_1_anies_count.get() + ',' + self.gen_value.get("1.0", END)
-            print(val)
             string_bytes = bytes(val, 'utf-8')
             hash_data = hashlib.sha256(string_bytes)
             hash_hex = hash_data.hexdigest()
             self.hash_value.delete("1.0", END)
             self.hash_value.insert(END, hash_hex)
-            print(hash_hex)
         if node == 2:
             val = self.node_2_ahok_count.get() + ',' + self.node_2_anies_count.get() + ',' + self.prev_value_2.get("1.0", END)
-            print(val)
             string_bytes = bytes(val, 'utf-8')
             hash_data = hashlib.sha256(string_bytes)
             hash_hex = hash_data.hexdigest()
             self.hash_value_2.delete("1.0", END)
             self.hash_value_2.insert(END, hash_hex)
-            print(hash_hex)
         if node == 3:
             val = self.node_3_ahok_count.get() + ',' + self.node_3_anies_count.get() + ',' + self.prev_value_3.get("1.0", END)
-            print(val)
             string_bytes = bytes(val, 'utf-8')
             hash_data = hashlib.sha256(string_bytes)
             hash_hex = hash_data.hexdigest()
             self.hash_value_3.delete("1.0", END)
             self.hash_value_3.insert(END, hash_hex)
-            print(hash_hex)
         if node == 4:
             val = self.node_4_ahok_count.get() +','+ self.node_4_anies_count.get()+','+self.prev_value_4.get("1.0",END)
-            print(val)
             string_bytes = bytes(val, 'utf-8')
             hash_data = hashlib.sha256(string_bytes)
             hash_hex = hash_data.hexdigest()
             self.hash_value_4.delete("1.0",END)
             self.hash_value_4.insert(END, hash_hex)
-            print(hash_hex)
 
     def broadcast_hash(self, node_dest):
 
@@ -528,74 +522,79 @@ class Pemilu:
             list_db_ahok = [self.node_1_db_ahok_4, self.node_2_db_ahok_4, self.node_3_db_ahok_4, self.node_4_db_ahok_4]
             list_db_anies = [self.node_1_db_anies_4, self.node_2_db_anies_4, self.node_3_db_anies_4, self.node_4_db_anies_4]
 
-        ''' security verification '''
-        self.verification(key, node_dest)
-
-        ''' precheck database '''
-        with open('database/database_node1.csv') as csvfile:
-            pointer_data = csv.reader(csvfile, delimiter=',')
-            data = list(pointer_data)
-
-        is_duplicated = False
-        z=0
-        if len(data) != 0 :
-            while z < len(data):
-                print(data[z][0])
-                if data[z][0] == 'id: Database{}'.format(node_dest-1):
-                    is_duplicated = True
-                    print('Data dari Node {} sudah terdaftar'.format(node_dest-1))
-                z += 1
-
         ''' lock data '''
         elements = [source_hash, prev_hash_value, ahok_count,anies_count]
         for element in elements:
             element.configure(state=DISABLED, bg='#F0F0F0')
 
-        ''' broadcast data prev Hash '''
-        list_node = [2, 3, 4]
-        if node_dest in list_node :
-            prev_hash_frames = [self.prev_value_2, self.prev_value_3, self.prev_value_4]
-            for frame in prev_hash_frames:
-                hash_value = source_hash.get(1.0, END)
-                frame.delete("1.0", END)
-                frame.insert(END, hash_value)
+        ''' security verification '''
+        verif_stat = self.verification(key, node_dest)
+        # print(verif_stat)
 
-        ''' populate data to database UI '''
-        for db in list_db_ahok:
-            db.delete("0", END)
-            db.insert(END, ahok_count.get())
+        if verif_stat == True:
+            ''' precheck database '''
+            with open('database/database_node1.csv') as csvfile:
+                pointer_data = csv.reader(csvfile, delimiter=',')
+                data = list(pointer_data)
 
-        for db in list_db_anies:
-            db.delete("0", END)
-            db.insert(END, anies_count.get())
+            is_duplicated = False
+            z=0
+            if len(data) != 0 :
+                while z < len(data):
+                    print(data[z][0])
+                    if data[z][0] == 'id: Database{}'.format(node_dest-1):
+                        is_duplicated = True
+                        print('Data dari Node {} sudah terdaftar'.format(node_dest-1))
+                    z += 1
+            print('pre check database done')
+            ''' broadcast data prev Hash '''
+            list_node = [2, 3, 4]
+            if node_dest in list_node :
+                prev_hash_frames = [self.prev_value_2, self.prev_value_3, self.prev_value_4]
+                for frame in prev_hash_frames:
+                    hash_value = source_hash.get(1.0, END)
+                    frame.delete("1.0", END)
+                    frame.insert(END, hash_value)
+            print('broadcast to other node done')
+            ''' populate data to database UI '''
+            for db in list_db_ahok:
+                db.delete("0", END)
+                db.insert(END, ahok_count.get())
 
-        ''' create signature '''
-        data_hash = source_hash.get('1.0',END)
-        data_hash_uni = data_hash.encode('utf-8')
-        sk = SigningKey.from_pem(open('certificate/private_{}.pem'.format(node_dest-1)).read())
-        sig = sk.sign(data_hash_uni)  ### result with /x /x
-        sig = binascii.hexlify(sig)   ### hex readeble
-
-        ''' save to database '''
-        if is_duplicated == False :
-            i=1
-            while i < 5 :
-                with open('database/database_node{}.csv'.format(i), 'a', newline='') as csvfile:
-                    write_csv = csv.writer(csvfile, delimiter = ',')
-                    write_csv.writerow(['sourceId: Node {}'.format(node_dest-1),
-                                        'nextNode: Node {}'.format(node_dest),
-                                        'previous hash: {}'.format(prev_hash_value.get('1.0','end-2c')),
-                                        'signature: {}'.format(sig),
-                                        'candidate 1: {}'.format(ahok_count.get()),
-                                        'candidate 2: {}'.format(anies_count.get()),
-                                        'timestamp: {}'.format(datetime.now())])
-                i+=1
+            for db in list_db_anies:
+                db.delete("0", END)
+                db.insert(END, anies_count.get())
+            print('populate database to UI done')
+            ''' create signature '''
+            data_hash = source_hash.get('1.0',END)
+            data_hash_uni = data_hash.encode('utf-8')
+            sk = SigningKey.from_pem(open('certificate/private_{}.pem'.format(node_dest-1)).read())
+            sig = sk.sign(data_hash_uni)  ### result with /x /x
+            sig = binascii.hexlify(sig)   ### hex readeble
+            print('create signature done')
+            ''' save to database '''
+            if is_duplicated == False :
+                i=1
+                while i < 5 :
+                    with open('database/database_node{}.csv'.format(i), 'a', newline='') as csvfile:
+                        write_csv = csv.writer(csvfile, delimiter = ',')
+                        write_csv.writerow(['sourceId: Node {}'.format(node_dest-1),
+                                            'nextNode: Node {}'.format(node_dest),
+                                            'previous hash: {}'.format(prev_hash_value.get('1.0','end-2c')),
+                                            'signature: {}'.format(sig),
+                                            'candidate 1: {}'.format(ahok_count.get()),
+                                            'candidate 2: {}'.format(anies_count.get()),
+                                            'timestamp: {}'.format(datetime.now())])
+                    i+=1
+                print('save to database done')
 
         ''' counting data '''
         self.counting_data()
 
         ''' populate to database UI '''
         self.populate_database()
+
+
 
         ''' check db size '''
         self.check_db_size()
@@ -952,25 +951,35 @@ class Pemilu:
     def verification(self, key, node):
 
         input_certificate = key
-        iter = node - 1
+        curr_node = node - 1
         verif_labels = [self.verif_label_1, self.verif_label_2, self.verif_label_3, self.verif_label_4]
         security_valid = False
         certificates = ['private_1.pem', 'private_2.pem', 'private_3.pem', 'private_4.pem']
         list_prev = [self.gen_value, self.prev_value_2, self.prev_value_3, self.prev_value_4]
         list_hash = [self.hash_value, self.hash_value_2, self.hash_value_3, self.hash_value_4]
 
-
-        if iter == 1:
+        if curr_node == 1:
             print('always pass this is genesis')
+            self.flag = True
+            self.flag2 = True
         else:
-            if list_prev[iter-1].get('1.0','end-1c') == list_hash[iter-2].get('1.0',END):
-                print('prev hash match')
+            if list_prev[curr_node-1].get('1.0','end-1c') == list_hash[curr_node-2].get('1.0',END) or list_prev[curr_node-1].get('1.0','end-1c') == self.last_validated:
+                print('flag disini {}'.format(self.flag))
+                print('prev hash match flag jadi true')
+                self.flag = True
             else:
+                print('ini flag')
+                print(self.flag)
+                if self.flag == True:
+                    self.last_validated = list_hash[curr_node-2].get('1.0',END)
+                    self.flag = False
+                    print('current flag False')
+                print('last validated')
+                print(self.last_validated)
                 print('prev hash not match')
                 for label in verif_labels:
                     label.configure(text='Prev hash not match', fg='white', bg='Red')
                 return False
-
 
         for certificate in certificates:
             with open('certificate/{}'.format(certificate)) as file :
@@ -982,6 +991,10 @@ class Pemilu:
 
         if security_valid == False:
             print('Unknown Key')
+            if self.flag2 == True:
+                self.last_validated = list_hash[curr_node - 2].get('1.0', END)
+                self.flag2 = False
+                print('flag iter terakhir {}'.format(self.flag))
             for label in verif_labels:
                 label.configure(text='Unknown key', fg='white', bg='Red')
             return False
