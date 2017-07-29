@@ -5,6 +5,7 @@ import binascii
 from datetime import datetime
 import time
 import ecdsa
+import sqlite3
 from tkinter import *
 from tkinter import font, ttk
 from collections import Counter
@@ -452,28 +453,31 @@ class Pemilu:
 
     def get_hash(self, node):
         if node == 1:
-            val = self.node_1_ahok_count.get() + ',' + self.node_1_anies_count.get() + ',' + self.gen_value.get("1.0", END)
+            val = self.gen_value.get("1.0", 'end-2c') + ',' + self.node_1_ahok_count.get() + ',' + self.node_1_anies_count.get()
+            print(val)
             string_bytes = bytes(val, 'utf-8')
             hash_data = hashlib.sha256(string_bytes)
             hash_hex = hash_data.hexdigest()
+            print(hash_hex)
             self.hash_value.delete("1.0", END)
             self.hash_value.insert(END, hash_hex)
         if node == 2:
-            val = self.node_2_ahok_count.get() + ',' + self.node_2_anies_count.get() + ',' + self.prev_value_2.get("1.0", END)
+            val = self.prev_value_2.get("1.0", 'end-2c') + ',' + self.node_2_ahok_count.get() + ',' + self.node_2_anies_count.get()
+            print(val)
             string_bytes = bytes(val, 'utf-8')
             hash_data = hashlib.sha256(string_bytes)
             hash_hex = hash_data.hexdigest()
             self.hash_value_2.delete("1.0", END)
             self.hash_value_2.insert(END, hash_hex)
         if node == 3:
-            val = self.node_3_ahok_count.get() + ',' + self.node_3_anies_count.get() + ',' + self.prev_value_3.get("1.0", END)
+            val = self.prev_value_3.get("1.0", 'end-2c') + ',' + self.node_3_ahok_count.get() + ',' + self.node_3_anies_count.get()
             string_bytes = bytes(val, 'utf-8')
             hash_data = hashlib.sha256(string_bytes)
             hash_hex = hash_data.hexdigest()
             self.hash_value_3.delete("1.0", END)
             self.hash_value_3.insert(END, hash_hex)
         if node == 4:
-            val = self.node_4_ahok_count.get() +','+ self.node_4_anies_count.get()+','+self.prev_value_4.get("1.0",END)
+            val = self.prev_value_4.get("1.0", 'end-2c') + ',' + self.node_4_ahok_count.get() + ',' + self.node_4_anies_count.get()
             string_bytes = bytes(val, 'utf-8')
             hash_data = hashlib.sha256(string_bytes)
             hash_hex = hash_data.hexdigest()
@@ -529,7 +533,6 @@ class Pemilu:
 
         ''' security verification '''
         verif_stat = self.verification(key, node_dest)
-        # print(verif_stat)
 
         if verif_stat == True:
             ''' precheck database '''
@@ -547,6 +550,7 @@ class Pemilu:
                         print('Data dari Node {} sudah terdaftar'.format(node_dest-1))
                     z += 1
             print('pre check database done')
+
             ''' broadcast data prev Hash '''
             list_node = [2, 3, 4]
             if node_dest in list_node :
@@ -572,6 +576,14 @@ class Pemilu:
             sig = sk.sign(data_hash_uni)  ### result with /x /x
             sig = binascii.hexlify(sig)   ### hex readeble
             print('create signature done')
+
+            ''' store data to real DB'''
+            self.store_data(node_dest-1,
+                            prev_hash_value.get('1.0', 'end-2c'),
+                            ahok_count.get(),
+                            anies_count.get(),
+                            sig)
+
             ''' save to database '''
             if is_duplicated == False :
                 i=1
@@ -593,8 +605,6 @@ class Pemilu:
 
         ''' populate to database UI '''
         self.populate_database()
-
-
 
         ''' check db size '''
         self.check_db_size()
@@ -894,6 +904,12 @@ class Pemilu:
         for db in list_db:
             open(db, 'w').close()
 
+        ''' clear db real '''
+        conn = sqlite3.connect('database/node_1_db.db')
+        c = conn.cursor()
+        c.execute('DELETE FROM votingDataDB')
+        conn.commit()
+
     def clear_interface(self):
 
         self.check_db_size()
@@ -951,38 +967,14 @@ class Pemilu:
     def verification(self, key, node):
 
         input_certificate = key
-        curr_node = node - 1
+        curr_node = node - 2
         verif_labels = [self.verif_label_1, self.verif_label_2, self.verif_label_3, self.verif_label_4]
         security_valid = False
+
+        ''' key verification '''
         certificates = ['private_1.pem', 'private_2.pem', 'private_3.pem', 'private_4.pem']
-        list_prev = [self.gen_value, self.prev_value_2, self.prev_value_3, self.prev_value_4]
-        list_hash = [self.hash_value, self.hash_value_2, self.hash_value_3, self.hash_value_4]
-
-        if curr_node == 1:
-            print('always pass this is genesis')
-            self.flag = True
-            self.flag2 = True
-        else:
-            if list_prev[curr_node-1].get('1.0','end-1c') == list_hash[curr_node-2].get('1.0',END) or list_prev[curr_node-1].get('1.0','end-1c') == self.last_validated:
-                print('flag disini {}'.format(self.flag))
-                print('prev hash match flag jadi true')
-                self.flag = True
-            else:
-                print('ini flag')
-                print(self.flag)
-                if self.flag == True:
-                    self.last_validated = list_hash[curr_node-2].get('1.0',END)
-                    self.flag = False
-                    print('current flag False')
-                print('last validated')
-                print(self.last_validated)
-                print('prev hash not match')
-                for label in verif_labels:
-                    label.configure(text='Prev hash not match', fg='white', bg='Red')
-                return False
-
         for certificate in certificates:
-            with open('certificate/{}'.format(certificate)) as file :
+            with open('certificate/{}'.format(certificate)) as file:
                 db_certificate = file.read()
                 if input_certificate == db_certificate:
                     security_valid = True
@@ -990,19 +982,57 @@ class Pemilu:
                         label.configure(text='Verification success', fg='white', bg='green')
 
         if security_valid == False:
-            print('Unknown Key')
-            if self.flag2 == True:
-                self.last_validated = list_hash[curr_node - 2].get('1.0', END)
-                self.flag2 = False
-                print('flag iter terakhir {}'.format(self.flag))
             for label in verif_labels:
                 label.configure(text='Unknown key', fg='white', bg='Red')
             return False
-        return TRUE
+
+        ''' verificaton hash '''
+        list_prev = [self.gen_value, self.prev_value_2, self.prev_value_3, self.prev_value_4]
+        if curr_node == 0:
+            return True
+            print('always pass this is genesis')
+        else:
+            if self.get_last_hash() == list_prev[curr_node].get('1.0', 'end-2c'):
+                print('PREV HASH VALID')
+                return True
+            else:
+                print('PREV HASH VALUE NOT VALID')
+                for label in verif_labels:
+                    label.configure(text='Invalid prevhash', fg='white', bg='Red')
+                return False
 
     def check_db_size(self):
         dbs = os.path.getsize('database/database_node1.csv')
         self.db_size.configure(text=dbs)
+
+    def store_data(self, node, prev_hash, candidate1, candidate2, signature):
+        date = time.time()
+        conn = sqlite3.connect('database/node_1_db.db')
+        c = conn.cursor()
+        c.execute('CREATE TABLE IF NOT EXISTS votingDataDB('
+                  'nodeID INT, '
+                  'prevHash TEXT, '
+                  'candidate1 INT, '
+                  'candidate2 INT, '
+                  'timestamp TEXT, '
+                  'signature TEXT)')
+
+
+        c.execute("INSERT INTO votingDataDB (nodeID, prevHash, candidate1, candidate2, timestamp, signature)"
+                  "VALUES(?, ?, ?, ?, ?, ?)", (node, prev_hash, candidate1, candidate2, date, signature))
+        conn.commit()
+
+    def get_last_hash(self):
+        conn = sqlite3.connect('database/node_1_db.db')
+        c = conn.cursor()
+        c.execute('SELECT * FROM votingDataDB WHERE nodeID =(SELECT MAX(nodeID) FROM votingDataDB)')
+        last_block = c.fetchall()[0]
+        val = last_block[1] + ',' + str(last_block[2]) + ',' + str(last_block[3])
+        string_bytes = bytes(val, 'utf-8')
+        hash_data = hashlib.sha256(string_bytes)
+        hash_hex = hash_data.hexdigest()
+        return  hash_hex
+
 
 
 root = Tk()
