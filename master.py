@@ -910,6 +910,9 @@ class Pemilu:
         c.execute('DELETE FROM votingDataDB')
         conn.commit()
 
+        ''' get db size '''
+        self.check_db_size()
+
     def clear_interface(self):
 
         self.check_db_size()
@@ -1002,7 +1005,7 @@ class Pemilu:
                 return False
 
     def check_db_size(self):
-        dbs = os.path.getsize('database/database_node1.csv')
+        dbs = os.path.getsize('database/node_1_db.db')
         self.db_size.configure(text=dbs)
 
     def store_data(self, node, prev_hash, candidate1, candidate2, signature):
