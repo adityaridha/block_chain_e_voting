@@ -445,8 +445,8 @@ class Pemilu:
         self.flag = None
 
         Button(text='Generate Data', width=15, height=2, bg='#f8c659', command=self.generate_data).place(x=node_1_margin_x, y=node_5_level+100)
-        Button(text='Sync Data', width=15, height=2, bg='#f8c659', command= lambda: self.countdown(3)).place(x=node_1_margin_x, y=node_5_level + 140)
-        Button(text='Clear DB', width=15, height=2, bg='#f8c659', command= self.clear_interface).place(x=node_1_margin_x, y=node_5_level + 180)
+        Button(text='Sync Data', width=15, height=2, bg='#f8c659', command= lambda: self.countdown(3)).place(x=node_1_margin_x+120, y=node_5_level + 100)
+        Button(text='Clear DB', width=15, height=2, bg='#f8c659', command= self.clear_interface).place(x=node_1_margin_x+240, y=node_5_level + 100)
 
         ''' clear DB '''
         self.clear_db()
@@ -812,7 +812,7 @@ class Pemilu:
 
             ''' verification '''
             key = node_keys[self.iter].get('1.0', 'end-1c')
-            verif = self.verification(key)
+            verif = self.verification(key,self.iter)
 
             if nodes_state[self.iter] == 'disabled' or verif == False:
                 for db in list_db_ahok[self.iter]:
@@ -853,8 +853,6 @@ class Pemilu:
                 sig = binascii.hexlify(sig)  ### hex readeble
 
                 print(sig)
-
-
 
                 ''' save to database '''
                 i = 1
