@@ -59,11 +59,9 @@ while i < jumlah_node:
     signature = create_signature(hash_data)
     time_stamp = int(time.time())
     block_data_to_db = [nodeID, prev_hash, cand_1, cand_2, signature, time_stamp]
-    block_data_to_view = [nodeID, prev_hash, cand_1, cand_2, hash_data, str(signature), time_stamp]
-
+    block_data_to_view = [nodeID, prev_hash, cand_1, cand_2, hash_data, str(signature), time_stamp] ### menampilkan hash unutk keperluan view aja
     table_data.append(block_data_to_view)
     store_to_csv(block_data_to_db)
-
     i+=1
 end_time = time.time()
 execution_time = end_time - start_time
@@ -95,8 +93,8 @@ with open("non_GUI/database_node.csv") as f:
             vk.verify(sig, hash_bytes)
             print("good signature")
         except BadSignatureError:
-            print("BAD SIGNATURE !!")
-            print("Node {} Corrupt !!".format(node_id+1))
+            print("BAD SIGNATURE !! Node {} Corrupt...............".format(node_id+1))
+
 end_time = time.time()
 verif_time = end_time - start_time
 print("Verification time : {}".format(verif_time))

@@ -449,7 +449,7 @@ class Pemilu:
         Button(text='Clear DB', width=15, height=2, bg='#f8c659', command= self.clear_interface).place(x=node_1_margin_x, y=node_5_level + 180)
 
         ''' clear DB '''
-        # self.clear_db()
+        self.clear_db()
 
     def get_hash(self, node):
         if node == 1:
@@ -907,7 +907,6 @@ class Pemilu:
             conn = sqlite3.connect('database/node_1_db.db')
             c = conn.cursor()
             c.execute('DELETE FROM votingDataDB')
-            conn.execute("VACUUM votingDataDB")
             conn.commit()
         except sqlite3.OperationalError:
             print("init Database")
