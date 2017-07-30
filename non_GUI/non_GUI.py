@@ -79,22 +79,24 @@ if open_db == 'Y' or open_db == 'y' :
 else:
     print("Database not manipulated")
 
+print("Start verification...")
+start_time = time.time()
 guess_hash_list = []
 with open("non_GUI/database_node.csv") as f:
     list_data= csv.reader(f, delimiter=",")
-    for data in list_data:
+    for node_id, data in enumerate(list_data):
         guess_hash = create_hash(data[1], data[2], data[3])
         hash_bytes = bytes(guess_hash, 'utf-8')
-        print(hash_bytes)
-        print(type(hash_bytes))
         sig = data[4]
         sig = bytes(sig[2:-1], 'utf-8')
         sig = binascii.unhexlify(sig)
-        print(sig)
-        print(type(sig))
         try:
             vk = VerifyingKey.from_pem(open("certificate\public_1.pem").read())
             vk.verify(sig, hash_bytes)
             print("good signature")
         except BadSignatureError:
-            print("BAD SIGNATURE")
+            print("BAD SIGNATURE !!")
+            print("Node {} Corrupt !!".format(node_id+1))
+end_time = time.time()
+verif_time = end_time - start_time
+print("Verification time : {}".format(verif_time))
