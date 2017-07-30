@@ -1,4 +1,4 @@
-import ecdsa
+import hashlib, binascii
 from ecdsa import BadSignatureError
 from ecdsa import SigningKey, VerifyingKey
 
@@ -31,17 +31,30 @@ from ecdsa import SigningKey, VerifyingKey
 # open("private_4.pem","wb").write(sk.to_pem())
 # open("public_4.pem","wb").write(vk.to_pem())
 
-''' sign and verify '''
-sk = SigningKey.from_pem(open("certificate\private_1.pem").read())
-message = open("certificate\message.txt","rb").read()
-sig = sk.sign(message)
-open("certificate\signature.txt","wb").write(sig)
+val =  "wow"
+hash_data = hashlib.sha256(bytes(val, 'utf-8'))
+print(hash_data)
+hash_hex = hash_data.hexdigest()
+hash_bytes = bytes(hash_hex, 'utf-8')
+print(hash_bytes)
+print(type(hash_bytes))
 
-vk = VerifyingKey.from_pem(open("certificate\public_1.pem").read())
-message = open("certificate\message.txt","rb").read()
-sig = open("certificate\signature.txt","rb").read()
+''' sign and verify '''
+sk = SigningKey.from_pem(open("certificate/private_1.pem").read())
+sig = sk.sign(hash_bytes)
+print(sig)
+print(type(sig))
+sig = binascii.hexlify(sig)
+print(sig)
+print(type(sig))
+sig = binascii.unhexlify(sig)
+print(sig)
+print(type(sig))
+# open("signature.txt","wb").write(sig)
+
+vk = VerifyingKey.from_pem(open("certificate/public_1.pem").read())
 try:
-    vk.verify(sig, message)
+    vk.verify(sig, hash_bytes)
     print ("good signature")
 except BadSignatureError:
     print ("BAD SIGNATURE")

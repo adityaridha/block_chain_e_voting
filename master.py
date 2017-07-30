@@ -449,7 +449,7 @@ class Pemilu:
         Button(text='Clear DB', width=15, height=2, bg='#f8c659', command= self.clear_interface).place(x=node_1_margin_x, y=node_5_level + 180)
 
         ''' clear DB '''
-        self.clear_db()
+        # self.clear_db()
 
     def get_hash(self, node):
         if node == 1:
@@ -569,6 +569,7 @@ class Pemilu:
                 db.delete("0", END)
                 db.insert(END, anies_count.get())
             print('populate database to UI done')
+
             ''' create signature '''
             data_hash = source_hash.get('1.0',END)
             data_hash_uni = data_hash.encode('utf-8')
@@ -578,11 +579,8 @@ class Pemilu:
             print('create signature done')
 
             ''' store data to real DB'''
-            self.store_data(node_dest-1,
-                            prev_hash_value.get('1.0', 'end-2c'),
-                            ahok_count.get(),
-                            anies_count.get(),
-                            sig)
+            self.store_data(node_dest-1, prev_hash_value.get('1.0', 'end-2c'),
+                            ahok_count.get(), anies_count.get(), sig)
 
             ''' save to database '''
             if is_duplicated == False :
@@ -905,10 +903,14 @@ class Pemilu:
             open(db, 'w').close()
 
         ''' clear db real '''
-        conn = sqlite3.connect('database/node_1_db.db')
-        c = conn.cursor()
-        c.execute('DELETE FROM votingDataDB')
-        conn.commit()
+        try:
+            conn = sqlite3.connect('database/node_1_db.db')
+            c = conn.cursor()
+            c.execute('DELETE FROM votingDataDB')
+            conn.execute("VACUUM votingDataDB")
+            conn.commit()
+        except sqlite3.OperationalError:
+            print("init Database")
 
         ''' get db size '''
         self.check_db_size()
@@ -1023,6 +1025,7 @@ class Pemilu:
 
         c.execute("INSERT INTO votingDataDB (nodeID, prevHash, candidate1, candidate2, timestamp, signature)"
                   "VALUES(?, ?, ?, ?, ?, ?)", (node, prev_hash, candidate1, candidate2, date, signature))
+        # conn.execute("VACUUM")
         conn.commit()
 
     def get_last_hash(self):
