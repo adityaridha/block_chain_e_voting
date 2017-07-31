@@ -454,16 +454,16 @@ class Pemilu:
     def get_hash(self, node):
         if node == 1:
             val = self.gen_value.get("1.0", 'end-2c') + ',' + self.node_1_ahok_count.get() + ',' + self.node_1_anies_count.get()
-            print(val)
+            # print(val)
             string_bytes = bytes(val, 'utf-8')
             hash_data = hashlib.sha256(string_bytes)
             hash_hex = hash_data.hexdigest()
-            print(hash_hex)
+            # print(hash_hex)
             self.hash_value.delete("1.0", END)
             self.hash_value.insert(END, hash_hex)
         if node == 2:
             val = self.prev_value_2.get("1.0", 'end-2c') + ',' + self.node_2_ahok_count.get() + ',' + self.node_2_anies_count.get()
-            print(val)
+            # print(val)
             string_bytes = bytes(val, 'utf-8')
             hash_data = hashlib.sha256(string_bytes)
             hash_hex = hash_data.hexdigest()
@@ -793,7 +793,7 @@ class Pemilu:
         source_data_ahok = [self.node_1_ahok_count.get(), self.node_2_ahok_count.get(), self.node_3_ahok_count.get(), self.node_4_ahok_count.get()]
         source_data_anies = [self.node_1_anies_count.get(), self.node_2_anies_count.get(), self.node_3_anies_count.get(), self.node_4_anies_count.get()]
 
-        prev_hash_frames = [self.prev_value_2, self.prev_value_3, self.prev_value_4]
+        prev_hash_frames = [self.gen_value,self.prev_value_2, self.prev_value_3, self.prev_value_4]
         source_hash_frames = [self.hash_value, self.hash_value_2, self.hash_value_3, self.hash_value_4]
 
         node_keys = [self.node_1_key_value, self.node_2_key_value, self.node_3_key_value, self.node_4_key_value]
@@ -812,9 +812,9 @@ class Pemilu:
 
             ''' verification '''
             key = node_keys[self.iter].get('1.0', 'end-1c')
-            verif = self.verification(key,self.iter)
+            verif = self.verification(key,self.iter+2)
 
-            if nodes_state[self.iter] == 'disabled' or verif == False:
+            if nodes_state[self.iter] == 'disabled' or verif == False:  ### block color with red
                 for db in list_db_ahok[self.iter]:
                     db.delete('0', END)
                     db.configure(bg='red')
@@ -854,6 +854,14 @@ class Pemilu:
 
                 print(sig)
 
+                ''' real store db'''
+                print("save to DB")
+                self.store_data(self.iter + 1,
+                                prev_hash_frames[self.iter].get("1.0","end-2c"),
+                                source_data_ahok[self.iter],
+                                source_data_anies[self.iter],
+                                sig)
+
                 ''' save to database '''
                 i = 1
                 while i < 5:
@@ -864,7 +872,7 @@ class Pemilu:
                                             'signature: {}'.format(sig),
                                             'ahok: {}'.format(source_data_ahok[self.iter]),
                                             'anies: {}'.format(source_data_anies[self.iter]),
-                                            'timestamp: {}'.format(datetime.now())])
+                                            'timestamp: {}'.format(time.time())])
                     i += 1
 
                 ''' populate to database UI '''
@@ -887,8 +895,7 @@ class Pemilu:
             self.root.after(1000, self.countdown)
             # print(self.iter)
 
-
-        print(self.node_down)
+        # print(self.node_down)
 
     def clear_db(self):
         ''' clean db file '''
@@ -979,6 +986,7 @@ class Pemilu:
             with open('certificate/{}'.format(certificate)) as file:
                 db_certificate = file.read()
                 if input_certificate == db_certificate:
+                    print("security OK")
                     security_valid = True
                     for label in verif_labels:
                         label.configure(text='Verification success', fg='white', bg='green')
@@ -988,16 +996,22 @@ class Pemilu:
                 label.configure(text='Unknown key', fg='white', bg='Red')
             return False
 
+        print("before go to prev hash check")
+        print(curr_node)
+
         ''' verificaton hash '''
         list_prev = [self.gen_value, self.prev_value_2, self.prev_value_3, self.prev_value_4]
         if curr_node == 0:
-            return True
             print('always pass this is genesis')
+            return True
+
         else:
             if self.get_last_hash() == list_prev[curr_node].get('1.0', 'end-2c'):
                 print('PREV HASH VALID')
                 return True
             else:
+                print(self.get_last_hash())
+                print(list_prev[curr_node].get('1.0', 'end-2c'))
                 print('PREV HASH VALUE NOT VALID')
                 for label in verif_labels:
                     label.configure(text='Invalid prevhash', fg='white', bg='Red')
@@ -1031,6 +1045,7 @@ class Pemilu:
         c.execute('SELECT * FROM votingDataDB WHERE nodeID =(SELECT MAX(nodeID) FROM votingDataDB)')
         last_block = c.fetchall()[0]
         val = last_block[1] + ',' + str(last_block[2]) + ',' + str(last_block[3])
+        print("dia kalkulasi {}".format(val))
         string_bytes = bytes(val, 'utf-8')
         hash_data = hashlib.sha256(string_bytes)
         hash_hex = hash_data.hexdigest()
