@@ -814,6 +814,7 @@ class Pemilu:
             key = node_keys[self.iter].get('1.0', 'end-1c')
             verif = self.verification(key,self.iter+2)
 
+            ''' UI populate'''
             if nodes_state[self.iter] == 'disabled' or verif == False:  ### block color with red
                 for db in list_db_ahok[self.iter]:
                     db.delete('0', END)
@@ -869,6 +870,7 @@ class Pemilu:
                         write_csv = csv.writer(csvfile, delimiter=',')
                         write_csv.writerow(['sourceId: Node {}'.format(self.iter + 1),
                                             'nextNode: Node {}'.format(self.iter + 2),
+                                            'prev hash: {}'.format(self.get_last_hash()),
                                             'signature: {}'.format(sig),
                                             'ahok: {}'.format(source_data_ahok[self.iter]),
                                             'anies: {}'.format(source_data_anies[self.iter]),
