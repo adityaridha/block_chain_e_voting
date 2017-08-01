@@ -5,11 +5,14 @@ import csv
 import os
 import subprocess
 import sys
+from colorama import init, Fore, Back, Style
 from terminaltables import AsciiTable
 from random import randint
 from ecdsa import BadSignatureError
 from ecdsa import SigningKey, VerifyingKey
 
+
+init() #colorama init
 
 def create_hash(prev_hash, cand1, cand2):
     val = prev_hash + cand1 + cand2
@@ -52,8 +55,8 @@ while i < jumlah_node:
         prev_hash = prev_hash_list[i-1]
 
     nodeID = i+1
-    cand_1 = str(randint(30, 100))
-    cand_2 = str(randint(30, 100))
+    cand_1 = str(randint(30, 99))
+    cand_2 = str(randint(30, 99))
     hash_data = create_hash(prev_hash, cand_1, cand_2)
     prev_hash_list.append(hash_data)
     signature = create_signature(hash_data)
@@ -69,8 +72,10 @@ dbs = os.path.getsize('non_GUI/database_node.csv')
 table = AsciiTable(table_data)
 print(table.table)
 print("Database Size : {}".format(dbs))
+print("average node data : {}".format(dbs/jumlah_node))
 print("Creation Time : {} second".format(execution_time))
-print("Creation data done, Do you want to manipulate the Database? [Y/N]")
+print("\n")
+print(Fore.RED + "Creation data done, Do you want to manipulate the Database? [Y/N]")
 open_db = input()
 if open_db == 'Y' or open_db == 'y' :
     subprocess.run(["notepad","non_GUI/database_node.csv"])

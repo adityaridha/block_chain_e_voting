@@ -544,7 +544,6 @@ class Pemilu:
             z=0
             if len(data) != 0 :
                 while z < len(data):
-                    print(data[z][0])
                     if data[z][0] == 'id: Database{}'.format(node_dest-1):
                         is_duplicated = True
                         print('Data dari Node {} sudah terdaftar'.format(node_dest-1))
@@ -754,8 +753,6 @@ class Pemilu:
             hash = self.hash_meth_4
             dsb_button = self.disb_node_4
 
-
-        print("init state :{}".format(send['state']))
         form_elements = [ahok_count, anies_count, prev_hash, hash_rslt]
         button_elements = [send, hash, key]
 
@@ -856,7 +853,6 @@ class Pemilu:
                 sig = sk.sign(data_hash_uni)  ### result with /x /x
                 sig = binascii.hexlify(sig)  ### hex readeble
 
-                print(sig)
 
                 ''' real store db'''
                 print("save to DB")
@@ -1001,9 +997,6 @@ class Pemilu:
                 label.configure(text='Unknown key', fg='white', bg='Red')
             return False
 
-        print("before go to prev hash check")
-        print(curr_node)
-
         ''' verificaton hash '''
         list_prev = [self.gen_value, self.prev_value_2, self.prev_value_3, self.prev_value_4]
         if curr_node == 0:
@@ -1015,8 +1008,6 @@ class Pemilu:
                 print('PREV HASH VALID')
                 return True
             else:
-                print(self.get_last_hash())
-                print(list_prev[curr_node].get('1.0', 'end-2c'))
                 print('PREV HASH VALUE NOT VALID')
                 for label in verif_labels:
                     label.configure(text='Invalid prevhash', fg='white', bg='Red')
@@ -1050,7 +1041,6 @@ class Pemilu:
         c.execute('SELECT * FROM votingDataDB WHERE nodeID =(SELECT MAX(nodeID) FROM votingDataDB)')
         last_block = c.fetchall()[0]
         val = last_block[1] + ',' + str(last_block[2]) + ',' + str(last_block[3])
-        print("dia kalkulasi {}".format(val))
         string_bytes = bytes(val, 'utf-8')
         hash_data = hashlib.sha256(string_bytes)
         hash_hex = hash_data.hexdigest()
