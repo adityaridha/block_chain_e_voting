@@ -10,7 +10,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/node_1_db.db" afterPath="$PROJECT_DIR$/database/node_1_db.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/master.py" afterPath="$PROJECT_DIR$/master.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/non_GUI/database_node.csv" afterPath="$PROJECT_DIR$/non_GUI/database_node.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/non_GUI/non_GUI.py" afterPath="$PROJECT_DIR$/non_GUI/non_GUI.py" />
     </list>
     <ignored path="Blockchain.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,11 +30,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="master.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="master.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/master.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="8778">
-              <caret line="1061" column="22" lean-forward="false" selection-start-line="1061" selection-start-column="22" selection-end-line="1061" selection-end-column="22" />
+            <state relative-caret-position="276">
+              <caret line="1025" column="58" lean-forward="false" selection-start-line="1025" selection-start-column="58" selection-end-line="1025" selection-end-column="58" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
                 <element signature="e#22009#23672#0" expanded="false" />
@@ -57,19 +56,18 @@
                 <element signature="e#41802#42429#0" expanded="false" />
                 <element signature="e#42471#45214#0" expanded="false" />
                 <element signature="e#45264#46985#0" expanded="false" />
-                <element signature="e#47024#47111#0" expanded="false" />
-                <element signature="e#47199#47850#0" expanded="false" />
-                <element signature="e#47889#48386#0" expanded="false" />
+                <element signature="e#47205#47856#0" expanded="false" />
+                <element signature="e#47895#48392#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="non_GUI.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="non_GUI.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/non_GUI/non_GUI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="96" column="26" lean-forward="true" selection-start-line="96" selection-start-column="26" selection-end-line="96" selection-end-column="26" />
+            <state relative-caret-position="1548">
+              <caret line="101" column="37" lean-forward="true" selection-start-line="101" selection-start-column="37" selection-end-line="101" selection-end-column="37" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -215,8 +213,8 @@
         <option value="$PROJECT_DIR$/database/node_1_db.db" />
         <option value="$PROJECT_DIR$/non_GUI.py" />
         <option value="$PROJECT_DIR$/certificate/ecdsa_lab.py" />
-        <option value="$PROJECT_DIR$/master.py" />
         <option value="$PROJECT_DIR$/non_GUI/non_GUI.py" />
+        <option value="$PROJECT_DIR$/master.py" />
       </list>
     </option>
   </component>
@@ -379,7 +377,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.non_GUI">
+  <component name="RunManager" selected="Python.master">
     <configuration default="false" name="ecdsa_lab" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -803,7 +801,14 @@
       <option name="project" value="LOCAL" />
       <updated>1501515021306</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="handle corrupt signature and hash">
+      <created>1501560888689</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1501560888689</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -886,7 +891,8 @@
     <MESSAGE value="correct button" />
     <MESSAGE value="fix sync function" />
     <MESSAGE value="insert add last hash" />
-    <option name="LAST_COMMIT_MESSAGE" value="insert add last hash" />
+    <MESSAGE value="handle corrupt signature and hash" />
+    <option name="LAST_COMMIT_MESSAGE" value="handle corrupt signature and hash" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -935,9 +941,8 @@
             <element signature="e#41802#42429#0" expanded="false" />
             <element signature="e#42471#45214#0" expanded="false" />
             <element signature="e#45264#46985#0" expanded="false" />
-            <element signature="e#47024#47111#0" expanded="false" />
-            <element signature="e#47199#47850#0" expanded="false" />
-            <element signature="e#47889#48386#0" expanded="false" />
+            <element signature="e#47205#47856#0" expanded="false" />
+            <element signature="e#47895#48392#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -975,9 +980,8 @@
             <element signature="e#41802#42429#0" expanded="false" />
             <element signature="e#42471#45214#0" expanded="false" />
             <element signature="e#45264#46985#0" expanded="false" />
-            <element signature="e#47024#47111#0" expanded="false" />
-            <element signature="e#47199#47850#0" expanded="false" />
-            <element signature="e#47889#48386#0" expanded="false" />
+            <element signature="e#47205#47856#0" expanded="false" />
+            <element signature="e#47895#48392#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1015,9 +1019,8 @@
             <element signature="e#41802#42429#0" expanded="false" />
             <element signature="e#42471#45214#0" expanded="false" />
             <element signature="e#45264#46985#0" expanded="false" />
-            <element signature="e#47024#47111#0" expanded="false" />
-            <element signature="e#47199#47850#0" expanded="false" />
-            <element signature="e#47889#48386#0" expanded="false" />
+            <element signature="e#47205#47856#0" expanded="false" />
+            <element signature="e#47895#48392#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1055,9 +1058,8 @@
             <element signature="e#41802#42429#0" expanded="false" />
             <element signature="e#42471#45214#0" expanded="false" />
             <element signature="e#45264#46985#0" expanded="false" />
-            <element signature="e#47024#47111#0" expanded="false" />
-            <element signature="e#47199#47850#0" expanded="false" />
-            <element signature="e#47889#48386#0" expanded="false" />
+            <element signature="e#47205#47856#0" expanded="false" />
+            <element signature="e#47895#48392#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1095,9 +1097,8 @@
             <element signature="e#41802#42429#0" expanded="false" />
             <element signature="e#42471#45214#0" expanded="false" />
             <element signature="e#45264#46985#0" expanded="false" />
-            <element signature="e#47024#47111#0" expanded="false" />
-            <element signature="e#47199#47850#0" expanded="false" />
-            <element signature="e#47889#48386#0" expanded="false" />
+            <element signature="e#47205#47856#0" expanded="false" />
+            <element signature="e#47895#48392#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1128,9 +1129,8 @@
             <element signature="e#41802#42429#0" expanded="false" />
             <element signature="e#42471#45214#0" expanded="false" />
             <element signature="e#45264#46985#0" expanded="false" />
-            <element signature="e#47024#47111#0" expanded="false" />
-            <element signature="e#47199#47850#0" expanded="false" />
-            <element signature="e#47889#48386#0" expanded="false" />
+            <element signature="e#47205#47856#0" expanded="false" />
+            <element signature="e#47895#48392#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1338,10 +1338,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/non_GUI/non_GUI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1548">
+          <caret line="101" column="37" lean-forward="true" selection-start-line="101" selection-start-column="37" selection-end-line="101" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/master.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8778">
-          <caret line="1061" column="22" lean-forward="false" selection-start-line="1061" selection-start-column="22" selection-end-line="1061" selection-end-column="22" />
+        <state relative-caret-position="276">
+          <caret line="1025" column="58" lean-forward="false" selection-start-line="1025" selection-start-column="58" selection-end-line="1025" selection-end-column="58" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
             <element signature="e#22009#23672#0" expanded="false" />
@@ -1363,19 +1373,8 @@
             <element signature="e#41802#42429#0" expanded="false" />
             <element signature="e#42471#45214#0" expanded="false" />
             <element signature="e#45264#46985#0" expanded="false" />
-            <element signature="e#47024#47111#0" expanded="false" />
-            <element signature="e#47199#47850#0" expanded="false" />
-            <element signature="e#47889#48386#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/non_GUI/non_GUI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="96" column="26" lean-forward="true" selection-start-line="96" selection-start-column="26" selection-end-line="96" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#47205#47856#0" expanded="false" />
+            <element signature="e#47895#48392#0" expanded="false" />
           </folding>
         </state>
       </provider>

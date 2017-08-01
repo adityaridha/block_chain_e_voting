@@ -1023,7 +1023,7 @@ class Pemilu:
                 return False
 
     def check_db_size(self):
-        dbs = os.path.getsize('database/node_1_db.db')
+        dbs = os.path.getsize('database/database_node1.csv')
         self.db_size.configure(text=dbs)
 
     def store_data(self, node, prev_hash, candidate1, candidate2, signature):
