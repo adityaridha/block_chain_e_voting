@@ -87,13 +87,20 @@ with open("non_GUI/database_node.csv") as f:
         hash_bytes = bytes(guess_hash, 'utf-8')
         sig = data[4]
         sig = bytes(sig[2:-1], 'utf-8')
-        sig = binascii.unhexlify(sig)
-        try:
-            vk = VerifyingKey.from_pem(open("certificate\public_1.pem").read())
-            vk.verify(sig, hash_bytes)
-            print("good signature")
-        except BadSignatureError:
+        switch = True
+        try :
+            sig = binascii.unhexlify(sig)
+        except binascii.Error:
+            switch = False
             print("BAD SIGNATURE !! Node {} Corrupt...............".format(node_id+1))
+
+        if switch == True:
+            try:
+                vk = VerifyingKey.from_pem(open("certificate\public_1.pem").read())
+                vk.verify(sig, hash_bytes)
+                print("good signature")
+            except BadSignatureError:
+                print("BAD SIGNATURE !! Node {} Corrupt...............".format(node_id+1))
 
 end_time = time.time()
 verif_time = end_time - start_time

@@ -223,9 +223,9 @@ class Pemilu:
         Label(text="Cand #1").place(x=237, y=header_height)
         Label(text="Cand #2").place(x=290, y=header_height)
 
-        Label(text="Signature check : ").place(x=node_1_margin_x, y=header_height)
+        Label(text="Verification check : ").place(x=node_1_margin_x, y=header_height)
         self.verif_label_1 = Label(text="-")
-        self.verif_label_1.place(x=100 + node_1_margin_x, y=header_height)
+        self.verif_label_1.place(x=110 + node_1_margin_x, y=header_height)
 
         Label(text="DB size : ").place(x=node_1_margin_x, y=header_height+190)
         self.db_size = Label(text="-")
@@ -283,9 +283,9 @@ class Pemilu:
         Label(text="Cand #1").place(x=235+add_margin, y=header_height)
         Label(text="Cand #2").place(x=290+add_margin, y=header_height)
 
-        Label(text="Signature check : ").place(x=350, y=header_height)
+        Label(text="Verification check : ").place(x=350, y=header_height)
         self.verif_label_2 = Label(text="-")
-        self.verif_label_2.place(x=110 + add_margin, y=header_height)
+        self.verif_label_2.place(x=120 + add_margin, y=header_height)
 
         node_1_x_level_one = 240+add_margin
         node_1_x_level_two = node_1_x_level_one + 50
@@ -336,9 +336,9 @@ class Pemilu:
         Label(text="Cand #1").place(x=235+add_margin, y=header_height)
         Label(text="Cand #2").place(x=290+add_margin, y=header_height)
 
-        Label(text="Signature check : ").place(x=10+add_margin, y=header_height)
+        Label(text="Verification check : ").place(x=10+add_margin, y=header_height)
         self.verif_label_3 = Label(text="-")
-        self.verif_label_3.place(x=110 + add_margin, y=header_height)
+        self.verif_label_3.place(x=120 + add_margin, y=header_height)
 
         node_1_x_level_one = 240+add_margin
         node_1_x_level_two = node_1_x_level_one + 50
@@ -389,9 +389,9 @@ class Pemilu:
         Label(text="Cand #1").place(x=235+add_margin, y=header_height)
         Label(text="Cand #2").place(x=290+add_margin, y=header_height)
 
-        Label(text="Signature check : ").place(x=10+add_margin, y=header_height)
+        Label(text="Verification check : ").place(x=10+add_margin, y=header_height)
         self.verif_label_4 = Label(text="-")
-        self.verif_label_4.place(x=110+add_margin, y=header_height)
+        self.verif_label_4.place(x=120+add_margin, y=header_height)
 
         node_1_x_level_one = 240+add_margin
         node_1_x_level_two = node_1_x_level_one + 50
@@ -814,6 +814,9 @@ class Pemilu:
             key = node_keys[self.iter].get('1.0', 'end-1c')
             verif = self.verification(key,self.iter+2)
 
+            self.get_hash(node=self.iter + 1)
+            self.disable_node(node=self.iter + 1, sync=TRUE)
+
             ''' UI populate'''
             if nodes_state[self.iter] == 'disabled' or verif == False:  ### block color with red
                 for db in list_db_ahok[self.iter]:
@@ -1056,7 +1059,7 @@ class Pemilu:
 
 
 root = Tk()
-root.geometry("1372x800")
+root.geometry("1372x720")
 root.title('E-VOTING SIMULATION USING BLOCKCHAIN')
 # root.resizable(width=False, height=False)
 Pemilu(root)
