@@ -771,6 +771,7 @@ class Pemilu:
             for element in button_elements:
                 element.configure(state=NORMAL)
             dsb_button.configure(text='Disable', bg='#91181e')
+            print("jadi aktif")
             return
 
     def countdown(self, remaining = None, iter=None):
@@ -812,10 +813,14 @@ class Pemilu:
             verif = self.verification(key,self.iter+2)
 
             self.get_hash(node=self.iter + 1)
-            self.disable_node(node=self.iter + 1, sync=TRUE)
 
             ''' UI populate'''
             if nodes_state[self.iter] == 'disabled' or verif == False:  ### block color with red
+                if nodes_state[self.iter] == 'disabled':
+                    verif_labels = [self.verif_label_1, self.verif_label_2, self.verif_label_3, self.verif_label_4]
+                    for label in verif_labels:
+                        label.configure(text='data not received', fg='white', bg='Red')
+
                 for db in list_db_ahok[self.iter]:
                     db.delete('0', END)
                     db.configure(bg='red')
@@ -824,6 +829,7 @@ class Pemilu:
                     db.delete('0', END)
                     db.configure(bg='red')
 
+                print("disini nge populate merah")
                 self.node_down.append(self.iter+1)
 
             else:
@@ -979,6 +985,7 @@ class Pemilu:
         input_certificate = key
         curr_node = node - 2
         verif_labels = [self.verif_label_1, self.verif_label_2, self.verif_label_3, self.verif_label_4]
+
         security_valid = False
 
         ''' key verification '''
